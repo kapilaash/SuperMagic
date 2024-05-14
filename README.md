@@ -1,0 +1,2 @@
+# SuperMagic
+Magic Editor
