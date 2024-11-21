@@ -46,6 +46,10 @@
       z-index: 500000; /* You can set any fixed value according to your requirements */
       /* height:0.5vw; */
     }
+    .delete-btn {
+        background-color: #dc3545;
+        color: #fff;
+    }
     .heading-card {
         margin-top: 2vw;
         padding: 1rem;
@@ -122,74 +126,6 @@
     .content {
       flex: 1;
     }
-    .tabs-container {
-      width: 40vw;
-      margin: 0 auto;
-      margin-bottom: 1vh;
-      font-size: 1vh+1vw;
-    }
-    .custom-tabs {
-      display: flex;
-      /* justify-content: space-between; */
-      justify-content: flex-start;
-      padding-left: 0;
-      margin-bottom: 0;
-      list-style: none;
-      border-bottom: 0.1vh solid #17a2b8; /* Add a bottom border to separate tabs from content */
-    }
-    .custom-tabs .nav-link {
-      font-family: "Playfair Display", serif;
-      width: 100%; /* Set width for each tab */
-      padding: 0.2vw 0.2vw; /* Adjust padding */
-      text-align: center; /* Center-align the text */
-      text-decoration: underline;
-      color: #a025d9;
-      background-color: #ffffff;
-      transition: background-color 0.3s;
-    }
-    .custom-tabs .nav-link.active {
-      background-color: rgba(255, 0, 0, 0);
-      /* background-color: #333; */
-      color: rgba(44, 255, 244, 0.765);
-    }
-    .modal {
-    display: none;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000000002;
-    }
-    .modal-content {
-    font-family: "Playfair Display", serif; /* Use Playfair Display font for the modal content */
-    background-color: goldenrod; /* Set the background color to goldenrod */
-    max-width: 40vw;
-    margin: 20vh auto;
-    padding: 2vw;
-    border-radius: 0.4vh;
-    box-shadow: 0 0.4vw 0.8vw rgba(0, 0, 0, 0.1);
-    font-size: calc(1vh + 1vw);
-    z-index: 1000000002;
-    }
-    .modal h2 {
-    margin-top: 0;
-    font-size: calc(1.5vh + 1.5vw);
-    z-index: 1000000002;
-    }
-    .modal-buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 2vh;
-    font-size: 2vh;
-    z-index: 1000000002;
-    }
-    .modal-buttons button {
-      margin-left: 1vw;
-      padding: 0.74vh 0.74vw; /* Adjust button padding using vh */
-      font-size: calc(1vh + 1vw);
-      z-index: 1000000002;
-   }
     button {
     cursor: pointer;
     padding: 0.8vw 1.4vh;
@@ -205,7 +141,7 @@
     }
     .draggable {
       padding: 1rem;
-      background-color: rgb(240, 249, 255);
+      background-color: rgb(201, 202, 202);
       border: 0.1px solid black;
       cursor: move;
       font-family: Playfair-Display;
@@ -352,57 +288,34 @@
         z-index: 10;
     }
     .font-playfair {
-  font-family: "Playfair Display", serif;
-  /* Add more styling properties if needed */
-}
+      font-family: "Playfair Display", serif;
+    }
   </style>
 </head>
 <body>
-  <div id="alert alert-danger alert-dismissible fade show" role="alert">
+  <div id="alert alert-danger alert-dismissible fade show" role="alert"></div>
 
-  </div>
-  <div id="confirmationModal" class="modal">
-    <div class="modal-content">
-      <h2>Confirmation</h2>
-      <p>Kindly Ensure Before Removing The Entire Content From This Page</p>
-      <div class="modal-buttons">
-        <button id="confirmDelete">Delete</button>
-        <button id="cancelDelete">Cancel</button>
-      </div>
+  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to clear all?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete" data-bs-dismiss="modal">Yes</button>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
   
   <div class="container-fluid">
-    <!-- <div class="tabs-container d-flex justify-content-between">
-      <ul class="nav custom-tabs">
-        <li class="nav-item mt-3 col">
-          <a class="nav-link active" href="#">Easy Maker -->
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-magic" viewBox="0 0 16 16">
-              <path d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0v1.829Zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707L14 2.707ZM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707L7.293 4Zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1h1.829Zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1h1.829ZM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707L13.293 10ZM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0v1.829Zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0L8.354 9.06Z"/>
-            </svg> -->
-          <!-- </a>
-        </li>
-      </ul>
-    </div> -->
-
     <div class="row card-container">
       <div class="col-md-9 col-sm-12 col-xs-12 col-xl-10 content">
-        <!-- <div class="card mt-2"  style="background-color: rgba(195, 193, 193, 0.263)">
-            <div class="card-body" style="background-color: #eaeaea30;color:#333;font-family: Play Fair Display;">
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col"  class="mt-2" >
-                            <label for="numberInput"><h6>Height Factor:</h6></label>
-                            <input type="number" id="numberInput1" class="numberInput" name="numberInput" min="0"  onkeydown="preventE(event)" pattern="[0-9]*" inputmode="numeric"  step="10">
-                        </div>
-                        <div class="col" class="mt-2">
-                            <label for="numberInput" ><h6>Width Factor:</h6></label>
-                            <input type="number" id="numberInput2" class="numberInput" name="numberInput" min="0"  onkeydown="preventE(event)" pattern="[0-9]*" inputmode="numeric"  step="10">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div id="file-preview-hidden">
 
           <div id="file-preview">
@@ -410,15 +323,14 @@
           </div>
         </div>
       </div>
-      <!-- <div class="col-md-1 col-sm-0"></div> -->
+
       <div class="col-md-3 col-sm-12 col-xs-12 col-xl-2 sidebar scrollbar1 overflow-auto">
         <div class="sidebar-item">
             <form action="#" method="POST" enctype="multipart/form-data">
                 <div class="form-group" style="margin: 0 0">
                     <input type="file" name="file" id="file-input" multiple>
-                    <label for="file-input" class="btn btn-primary mt-2">Choose Image
+                    <label for="file-input" class="btn btn-dark mt-2">Choose Image
                     <i class="fa fa-file-image-o"></i></label>
-
                 </div>
               
                 <div class="card-header mt-2 text-center font-playfair mb-0 border-0 p-1.5">
@@ -432,44 +344,20 @@
         </div>
 
         <div class="sidebar-item">
-
-          <button id="add-textbox" class="btn btn-outline-primary mt-2">Add Textbox <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-          <button id="add-PhoneNumber" class="btn btn-outline-dark mt-2">Add Phone Number <i class="fas fa-phone" aria-hidden="true"></i></button>
-          <button id="add-QrCode" class="btn btn-outline-dark mt-2">Add QrCode <i class="fas fa-qrcode" aria-hidden="true"></i></button>
-
+          <button id="add-textbox" class="btn btn-outline-dark mt-2">Add Textbox <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
           <input type="color" id="text-color-picker" class="form-control mt-2">
-
         </div>
         <div class="sidebar-item">
-          <button id="delete-all" class="btn btn-dark mt-2">Delete All <i class="fa fa-eraser" aria-hidden="true"></i></button>
+          <button id="delete-all" class="btn btn-danger mt-2"  data-bs-toggle="modal" data-bs-target="#confirmationModal">Clear All <i class="fa fa-eraser" aria-hidden="true"></i></button>
         </div>
 
-        <div class="sidebar-item">
-            <!-- <select id="image-format" class="form-control mt-2">
-                <option value="png">PNG</option>
-                <option value="jpeg">JPEG</option>
-                <option value="svg">SVG (Base64)</option>
-            </select> -->
-            
+        <div class="sidebar-item">            
             <select id="image-format" class="btn btn-light dropdown-toggle mt-2" data-bs-toggle="dropdown">
                 <option value="png">PNG</option>
                 <option value="jpeg">JPEG</option>
                 <option value="svg">SVG (Base64)</option>
             </select>
             
-            <!-- <div class="btn-group">
-              <button type="button" class="btn btn-danger">Action</button>
-              <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="visually-hidden">Toggle Dropdown</span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </div> -->
-
-            <!-- dropdown-menu -->
             <div class="card mt-2">
                 <div class="card-header text-center">Image Resolution</div>
                 <div class="card-body">
@@ -505,704 +393,570 @@
     </div>
   </div>
 
-
-
-
-  <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script> -->
   <script>
-var imageNames = [];
-var draggableContentsArray=[];
-var previewContainer = document.getElementById('file-preview');
-var elements = previewContainer.querySelectorAll('.file-preview-item');
-var previewContainer_hidden = document.getElementById('file-preview-hidden');
-var QRCode='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAuYAAALmCAYAAAAOmVFTAAAAAXNSR0IArs4c6QAAIABJREFUeF7t3MFtI0EUQ0E3JnEp8RlDvjkB4QGsTWDZxX8ghIHPfd/Pj38ECBAgQIAAAQIECHxd4Hme93Vdr89/fAzzr/v7DwkQIECAAAECBAj8CRjmDoEAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIECAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAgGEeKEEEAgQIECBAgAABAoa5GyBAgAABAgQIECAQEDDMAyWIQIAAAQIECBAgQMAwdwMECBAgQIAAAQIEAgKGeaAEEQgQIECAAAECBAgY5m6AAAECBAgQIECAQEDAMA+UIAIBAgQIECBAgAABw9wNECBAgAABAgQIEAgIGOaBEkQgQIAAAQIECBAgYJi7AQIECBAgQIAAAQIBAcM8UIIIBAgQIECAAAECBAxzN0CAAAECBAgQIEAgIGCYB0oQgQABAgQIECBAgIBh7gYIECBAgAABAgQIBAQM80AJIhAgQIAAAQIECBAwzN0AAQIECBAgQIAAgYCAYR4oQQQCBAgQIECAAAEChrkbIECAAAECBAgQIBAQMMwDJYhAgAABAgQIECBAwDB3AwQIECBAgAABAgQCAoZ5oAQRCBAgQIAAAQIECBjmboAAAQIECBAgQIBAQMAwD5QgAgECBAgQIEDs8uXiAAANk0lEQVSAAAHD3A0QIECAAAECBAgQCAgY5oESRCBAgAABAgQIECBgmLsBAgQIECBAgAABAgEBwzxQgggECBAgQIAAAQIEDHM3QIAAAQIECBAgQCAgYJgHShCBAAECBAgQIECAgGHuBggQIECAAAECBAgEBAzzQAkiECBAgAABAgQIEDDM3QABAgQIECBAgACBgIBhHihBBAIECBAgQIAAAQKGuRsgQIAAAQIECBAgEBAwzAMliECAAAECBAgQIEDAMHcDBAgQIECAAAECBAIChnmgBBEIECBAgAABAgQIGOZugAABAgQIECBAgEBAwDAPlCACAQIECBAgQIAAAcPcDRAgQIAAAQIECBAICBjmgRJEIECAAAECBAgQIGCYuwECBAgQIECAAAECAQHDPFCCCAQIECBAgAABAgQMczdAgAABAgQIECBAICBgmAdKEIEAAQIECBAgQICAYe4GCBAgQIAAAQIECAQEDPNACSIQIECAAAECBAgQMMzdAAECBAgQIECAAIGAwDnndc55f6Kc+76fQCYRCBAgQIAAAQIECMwJ+MV8rnIPJkCAAAECBAgQKAr4xbzYikwECBAgQIAAAQJzAob5XOUeTIAAAQIECBAgUBTwKUuxFZkIECBAgAABAgTmBAzzuco9mAABAgQIECBAoCjgU5ZiKzIRIECAAAECBAjMCfjFfK5yDyZAgAABAgQIECgKGObFVmQiQIAAAQIECBCYEzDM5yr3YAIECBAgQIAAgaKAYV5sRSYCBAgQIECAAIE5AcN8rnIPJkCAAAECBAgQKAr4qyzFVmQiQIAAAQIECBCYEzDM5yr3YAIECBAgQIAAgaKAT1mKrchEgAABAgQIECAwJ2CYz1XuwQQIECBAgAABAkUBn7IUW5GJAAECBAgQIEBgTsAv5nOVezABAgQIECBAgEBRwC/mxVZkIkCAAAECBAgQmBMwzOcq92ACBAgQIECAAIGigE9Ziq3IRIAAAQIECBAgMCdgmM9V7sEECBAgQIAAAQJFAZ+yFFuRiQABAgQIECBAYE7AL+ZzlXswAQIECBAgQIBAUcAv5sVWZCJAgAABAgQIEJgTMMznKvdgAgQIECBAgACBooBPWYqtyESAAAECBAgQIDAnYJjPVe7BBAgQIECAAAECRQGfshRbkYkAAQIECBAgQGBOwC/mc5V7MAECBAgQIECAQFHAMC+2IhMBAgQIECBAgMCcgGE+V7kHEyBAgAABAgQIFAUM82IrMhEgQIAAAQIECMwJGOZzlXswAQIECBAgQIBAUcBfZSm2IhMBAgQIECBAgMCcgGE+V7kHEyBAgAABAgQIFAV8ylJsRSYCBAgQIECAAIE5AcN8rnIPJkCAAAECBAgQKAr4lKXYikwECBAgQIAAAQJzAn4xn6vcgwkQIECAAAECBIoCfjEvtiITAQIECBAgQIDAnIBhPle5BxMgQIAAAQIECBQFfMpSbEUmAgQIECBAgACBOQHDfK5yDyZAgAABAgQIECgK+JSl2IpMBAgQIECAAAECcwJ+MZ+r3IMJECBAgAABAgSKAoZ5sRWZCBAgQIAAAQIE5gQM87nKPZgAAQIECBAgQKAoYJgXW5GJAAECBAgQIEBgTsAwn6vcgwkQIECAAAECBIoC/ipLsRWZCBAgQIAAAQIE5gQM87nKPZgAAQIECBAgQKAo4FOWYisyESBAgAABAgQIzAkY5nOVezABAgQIECBAgEBRwKcsxVZkIkCAAAECBAgQmBPwi/lc5R5MgAABAgQIECBQFPCLebEVmQgQIECAAAECBOYEDPO5yj2YAAECBAgQIECgKOBTlmIrMhEgQIAAAQIECMwJGOZzlXswAQIECBAgQIBAUcCnLMVWZCJAgAABAgQIEJgT8Iv5XOUeTIAAAQIECBAgUBTwi3mxFZkIECBAgAABAgTmBAzzuco9mAABAgQIECBAoCjgU5ZiKzIRIECAAAECBAjMCRjmc5V7MAECBAgQIECAQFHApyzFVmQiQIAAAQIECBCYE/CL+VzlHkyAAAECBAgQIFAUMMyLrchEgAABAgQIECAwJ2CYz1XuwQQIECBAgAABAkUBw7zYikwECBAgQIAAAQJzAob5XOUeTIAAAQIECBAgUBTwV1mKrchEgAABAgQIECAwJ2CYz1XuwQQIECBAgAABAkUBn7IUW5GJAAECBAgQIEBgTsAwn6vcgwkQIECAAAECBIoCPmUptiITAQIECBAgQIDAnIBfzOcq92ACBAgQIECAAIGigF/Mi63IRIAAAQIECBAgMCdgmM9V7sEECBAgQIAAAQJFAZ+yFFuRiQABAgQIECBAYE7AMJ+r3IMJECBAgAABAgSKAj5lKbYiEwECBAgQIECAwJyAX8znKvdgAgQIECBAgACBooBhXmxFJgIECBAgQIAAgTkBw3yucg8mQIAAAQIECBAoChjmxVZkIkCAAAECBAgQmBMwzOcq92ACBAgQIECAAIGigL/KUmxFJgIECBAgQIAAgTkBv5jPVe7BBAgQIECAAAECRQHDvNiKTAQIECBAgAABAnMChvlc5R5MgAABAgQIECBQFDDMi63IRIAAAQIECBAgMCdgmM9V7sEECBAgQIAAAQJFAX+VpdiKTAQIECBAgAABAnMChvlc5R5MgAABAgQIECBQFPApS7EVmQgQIECAAAECBOYEDPO5yj2YAAECBAgQIECgKOBTlmIrMhEgQIAAAQIECMwJ+MV8rnIPJkCAAAECBAgQKAr4xbzYikwECBAgQIAAAQJzAob5XOUeTIAAAQIECBAgUBTwKUuxFZkIECBAgAABAgTmBAzzuco9mAABAgQIECBAoCjgU5ZiKzIRIECAAAECBAjMCfjFfK5yDyZAgAABAgQIECgKGObFVmQiQIAAAQIECBCYEzDM5yr3YAIECBAgQIAAgaKAYV5sRSYCBAgQIECAAIE5AcN8rnIPJkCAAAECBAgQKAr4qyzFVmQiQIAAAQIECBCYEzDM5yr3YAIECBAgQIAAgaKAT1mKrchEgAABAgQIECAwJ2CYz1XuwQQIECBAgAABAkUBn7IUW5GJAAECBAgQIEBgTsAv5nOVezABAgQIECBAgEBRwC/mxVZkIkCAAAECBAgQmBMwzOcq92ACBAgQIECAAIGigE9Ziq3IRIAAAQIECBAgMCdgmM9V7sEECBAgQIAAAQJFAZ+yFFuRiQABAgQIECBAYE7AL+ZzlXswAQIECBAgQIBAUcAv5sVWZCJAgAABAgQIEJgTMMznKvdgAgQIECBAgACBooBPWYqtyESAAAECBAgQIDAnYJjPVe7BBAgQIECAAAECRQGfshRbkYkAAQIECBAgQGBOwC/mc5V7MAECBAgQIECAQFHAMC+2IhMBAgQIECBAgMCcgGE+V7kHEyBAgAABAgQIFAUM82IrMhEgQIAAAQIECMwJGOZzlXswAQIECBAgQIBAUcBfZSm2IhMBAgQIECBAgMCcgGE+V7kHEyBAgAABAgQIFAV8ylJsRSYCBAgQIECAAIE5AcN8rnIPJkCAAAECBAgQKAr4lKXYikwECBAgQIAAAQJzAn4xn6vcgwkQIECAAAECBIoCfjEvtiITAQIECBAgQIDAnIBhPle5BxMgQIAAAQIECBQFfMpSbEUmAgQIECBAgACBOQHDfK5yDyZAgAABAgQIECgK+JSl2IpMBAgQIECAAAECcwKG+VzlHkyAAAECBAgQIFAU8ClLsRWZCBAgQIAAAQIE5gQM87nKPZgAAQIECBAgQKAo4FOWYisyESBAgAABAgQIzAn4xXyucg8mQIAAAQIECBAoCvjFvNiKTAQIECBAgAABAnMChvlc5R5MgAABAgQIECBQFPApS7EVmQgQIECAAAECBOYEDPO5yj2YAAECBAgQIECgKOBTlmIrMhEgQIAAAQIECMwJ+MV8rnIPJkCAAAECBAgQKAr4xbzYikwECBAgQIAAAQJzAob5XOUeTIAAAQIECBAgUBTwKUuxFZkIECBAgAABAgTmBAzzuco9mAABAgQIECBAoCjgU5ZiKzIRIECAAAECBAjMCfjFfK5yDyZAgAABAgQIECgK+MW82IpMBAgQIECAAAECcwKG+VzlHkyAAAECBAgQIFAUMMyLrchEgAABAgQIECAwJ+Ab87nKPZgAAQIECBAgQKAo4BfzYisyESBAgAABAgQIzAkY5nOVezABAgQIECBAgEBRwKcsxVZkIkCAAAECBAgQmBMwzOcq92ACBAgQIECAAIGigE9Ziq3IRIAAAQIECBAgMCfgF/O5yj2YAAECBAgQIECgKOAX82IrMhEgQIAAAQIECMwJGOZzlXswAQIECBAgQIBAUcCnLMVWZCJAgAABAgQIEJgTMMznKvdgAgQIECBAgACBooBPWYqtyESAAAECBAgQIDAn4Bfzuco9mAABAgQIECBAoCjgF/NiKzIRIECAAAECBAjMCRjmc5V7MAECBAgQIECAQFHApyzFVmQiQIAAAQIECBCYEzDM5yr3YAIECBAgQIAAgaKAT1mKrchEgAABAgQIECAwJ2CYz1XuwQQIECBAgAABAkUBn7IUW5GJAAECBAgQIEBgTuDfMJ97vQcTIECAAAECBAgQCAqcYCaRCBAgQIAAAQIECMwJ/AIQTT0xAE1ldAAAAABJRU5ErkJggg=='
+    var imageNames = [];
+    var draggableContentsArray=[];
+    var previewContainer = document.getElementById('file-preview');
+    var elements = previewContainer.querySelectorAll('.file-preview-item');
+    var previewContainer_hidden = document.getElementById('file-preview-hidden');
+    var imageDataURL,base64URL; // Variable to store the data URL of the generated image
+    var imageDictionary = {};
 
-var imageDataURL,base64URL; // Variable to store the data URL of the generated image
-var imageDictionary = {};
+    const draggables = document.querySelectorAll('.draggable')
+    const containers = document.querySelectorAll('#image-names-container')
 
-const draggables = document.querySelectorAll('.draggable')
-const containers = document.querySelectorAll('#image-names-container')
-
- // adding dragging class the element on drag
-containers.forEach(container_ => {
-  container_.addEventListener('dragover', e => {
-    e.preventDefault()
-    const afterElement = getDragAfterElement(container_, e.clientY)// this is the filename inside the dragable container which is "below" the drag element
-    const draggable = document.querySelector('.dragging')
-    if (afterElement == null) {
-      container_.appendChild(draggable)
-    } else {
-      container_.insertBefore(draggable, afterElement)
-    }
-  })
-  container_.addEventListener('dragend', () => { // specifying or changing z index based on draggableContentsArray while dragging
-  const draggableContents = [];
-  const draggableElements = container_.querySelectorAll('.draggable');
-  
-  draggableElements.forEach(draggableElement => {
-    draggableContents.push(draggableElement.textContent);
-  });
-  draggableContentsArray = draggableContents;
-
-  var zIndexImageDictionary = {};
-
-  var imageElements = previewContainer.querySelectorAll('.file-preview-item img');
-
-  imageElements.forEach(function(imageElement) {
-    var imageSrc = imageElement.getAttribute('src');
-    var imageFileName = imageElement.getAttribute('data-file-name');
-
-    draggableContents.forEach((draggableContent, index) => {
-      if (imageFileName === draggableContent) {
-          zincre = index + 1;
-          imageElement.style.zIndex = zincre;
-          zIndexImageDictionary[zincre] = imageFileName;
+    // adding dragging class the element on drag
+    containers.forEach(container_ => {
+    container_.addEventListener('dragover', e => {
+        e.preventDefault()
+        const afterElement = getDragAfterElement(container_, e.clientY)// this is the filename inside the dragable container which is "below" the drag element
+        const draggable = document.querySelector('.dragging')
+        if (afterElement == null) {
+        container_.appendChild(draggable)
+        } else {
+        container_.insertBefore(draggable, afterElement)
         }
-      });
+    })
+    container_.addEventListener('dragend', () => { // specifying or changing z index based on draggableContentsArray while dragging
+    const draggableContents = [];
+    const draggableElements = container_.querySelectorAll('.draggable');
+    
+    draggableElements.forEach(draggableElement => {
+        draggableContents.push(draggableElement.textContent);
+    });
+    draggableContentsArray = draggableContents;
+
+    var zIndexImageDictionary = {};
+
+    var imageElements = previewContainer.querySelectorAll('.file-preview-item img');
+
+    imageElements.forEach(function(imageElement) {
+        var imageSrc = imageElement.getAttribute('src');
+        var imageFileName = imageElement.getAttribute('data-file-name');
+
+        draggableContents.forEach((draggableContent, index) => {
+        if (imageFileName === draggableContent) {
+            zincre = index + 1;
+            imageElement.style.zIndex = zincre;
+            zIndexImageDictionary[zincre] = imageFileName;
+            }
+        });
+        });
+
+    });
+    })
+
+    // putting all file names of the images inside draggableContents
+    function printDraggableContents(container) { 
+    const draggableContents = [];
+    const draggableElements = container.querySelectorAll('.draggable');      
+    draggableElements.forEach(draggableElement => {
+        draggableContents.push(draggableElement.textContent);
+    });
+    return draggableContents;
+    }
+
+    // positioning of the draggable boxes
+    function getDragAfterElement(container_, y) {
+    const draggableElements = [...container_.querySelectorAll('.draggable:not(.dragging)')]
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect()
+        const offset = y - box.top - box.height / 2
+        if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child }
+        } else {
+        return closest
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element
+    }
+
+    // choose Image button => updating file names inside dragable container => enabling dragging feature => getting image sources for mapping sources with names => updating image dimension => 
+    // calling nova() for enabling resizability, rotatability and dragability to the image 
+    document.getElementById('file-input').addEventListener('change', function(event) {
+    var files = event.target.files;
+
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        var reader = new FileReader();
+
+        reader.onload = (function(file) {
+        return function(e) {
+            var fileName = file.name;
+            imageNames.push(file.name);
+
+            var draggableItem = document.createElement('div');
+            draggableItem.className = 'draggable';
+            draggableItem.draggable = true;
+            draggableItem.textContent = fileName; // Display the file name as draggable text
+
+            draggableItem.style.zIndex = imageNames.length; // Incremented index
+            draggableItem.addEventListener('dragstart', () => {
+            console.log("start of Drag...");
+            draggableItem.classList.add('dragging');
+            });
+
+            draggableItem.addEventListener('dragend', () => {
+            console.log("end of Drag...");
+            draggableItem.classList.remove('dragging');
+            });
+
+            // Append the draggable item to the image names container
+            var imageNamesContainer = document.getElementById('image-names-container');
+            if (imageNamesContainer) {
+            imageNamesContainer.appendChild(draggableItem);
+            draggableContentsArray = printDraggableContents(imageNamesContainer);
+            }
+
+            var img = document.createElement('img');
+            img.src = e.target.result;
+            img.setAttribute('data-file-name', fileName); 
+            img.setAttribute('data-type','image');
+
+            img.addEventListener('load', function() {
+            nova(img);
+            var currentSrc = img.currentSrc;
+            var currentSrcFileName = currentSrc.substring(currentSrc.lastIndexOf('/') + 1);
+            imageDictionary[currentSrc] = fileName;
+            });
+            img.style.zIndex = imageNames.length;
+
+            var previewItem = document.createElement('div');
+            previewItem.className = 'file-preview-item';
+            previewItem.appendChild(img);
+            previewContainer.appendChild(previewItem);
+            //img.style.position = "absolute";
+            var imgStyles = window.getComputedStyle(img);
+
+            img.style.width = imgStyles.getPropertyValue('width');
+            img.style.height = imgStyles.getPropertyValue('height');
+            img.style.left = imgStyles.getPropertyValue('left');
+            img.style.top = imgStyles.getPropertyValue('top');
+        };
+        })(file);
+
+        reader.readAsDataURL(file);
+    }
+    event.target.value = '';
     });
 
-});
-})
 
-// putting all file names of the images inside draggableContents
-function printDraggableContents(container) { 
-  const draggableContents = [];
-  const draggableElements = container.querySelectorAll('.draggable');      
-  draggableElements.forEach(draggableElement => {
-    draggableContents.push(draggableElement.textContent);
-  });
-  return draggableContents;
-}
+    document.getElementById('add-textbox').addEventListener('click', function() {
+        traffic=0;
+        createTextInput(traffic);
+    });
 
-// positioning of the draggable boxes
-function getDragAfterElement(container_, y) {
-  const draggableElements = [...container_.querySelectorAll('.draggable:not(.dragging)')]
+    // add textbox/qrcode/phoneNumber => calling nova() for resizing, dragging and rotating feature and added color picker for them.
+    var TextName=0
+    function createTextInput(traffic) {
+        TextName++;
+        var textbox = document.createElement('input');
+        textbox.type = 'text';
+        textbox.setAttribute('data-type', 'textbox');
+        textbox.setAttribute('Name', TextName);
+        textbox.setAttribute('traffic', traffic); 
+        
+        textbox.placeholder = 'Text';
+        
+        textbox.classList.add('textbox');
+        textbox.style.position = 'absolute';
+        textbox.style['user-select'] = 'none';
+        textbox.style['font-family'] = '"Playfair Display", serif';
+        //textbox.style.display = 'block';
+        textbox.style['font-size'] = '250%';
+        // textbox.style.color = '#17a2b8';
+        textbox.style.color = '#6401fa';
 
-  return draggableElements.reduce((closest, child) => {
-    const box = child.getBoundingClientRect()
-    const offset = y - box.top - box.height / 2
-    if (offset < 0 && offset > closest.offset) {
-      return { offset: offset, element: child }
-    } else {
-      return closest
-    }
-  }, { offset: Number.NEGATIVE_INFINITY }).element
-}
+        textbox.style['line-height'] = '1.6';
+        //textbox.style['background-color'] = '#fff';
+        textbox.style['background-color'] = 'transparent';
 
-// choose Image button => updating file names inside dragable container => enabling dragging feature => getting image sources for mapping sources with names => updating image dimension => 
-// calling nova() for enabling resizability, rotatability and dragability to the image 
-document.getElementById('file-input').addEventListener('change', function(event) {
-  var files = event.target.files;
+        textbox.style['background-clip'] = 'padding-box';
+        // textbox.style.border = '0.000000001px solid rgba(67, 87, 133, .2)';
+        // textbox.style.border = '0.0000000001px solid rgba(23, 162, 184,1)';
+        textbox.style.border = '0.0000000001px solid #000';
 
-  for (var i = 0; i < files.length; i++) {
-    var file = files[i];
-    var reader = new FileReader();
+        textbox.style.transition = 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out';
+        textbox.style.zIndex = 1000000000+traffic-5;
 
-    reader.onload = (function(file) {
-      return function(e) {
-        var fileName = file.name;
-        imageNames.push(file.name);
+        textbox.style.top = '5vw'; 
+        textbox.style.left = '5vw';
+        textbox.style.width = '25vw';
+        textbox.style.height= '5vh';
+        textbox.style.textAlign = 'center';
 
-        var draggableItem = document.createElement('div');
-        draggableItem.className = 'draggable';
-        draggableItem.draggable = true;
-        draggableItem.textContent = fileName; // Display the file name as draggable text
-
-        draggableItem.style.zIndex = imageNames.length; // Incremented index
-        draggableItem.addEventListener('dragstart', () => {
-        console.log("start of Drag...");
-        draggableItem.classList.add('dragging');
+        textbox.addEventListener('mousedown', function() {
+        var colorPicker = document.getElementById('text-color-picker');
+        console.log('colorPicker.value1: ',colorPicker.value)
+        textbox.style.color = colorPicker.value;
         });
-
-        draggableItem.addEventListener('dragend', () => {
-        console.log("end of Drag...");
-        draggableItem.classList.remove('dragging');
-        });
-
-        // Append the draggable item to the image names container
-        var imageNamesContainer = document.getElementById('image-names-container');
-        if (imageNamesContainer) {
-        imageNamesContainer.appendChild(draggableItem);
-        draggableContentsArray = printDraggableContents(imageNamesContainer);
-        }
-
-        var img = document.createElement('img');
-        img.src = e.target.result;
-        img.setAttribute('data-file-name', fileName); 
-        img.setAttribute('data-type','image');
-
-        img.addEventListener('load', function() {
-          nova(img);
-          var currentSrc = img.currentSrc;
-          var currentSrcFileName = currentSrc.substring(currentSrc.lastIndexOf('/') + 1);
-          imageDictionary[currentSrc] = fileName;
-        });
-        img.style.zIndex = imageNames.length;
 
         var previewItem = document.createElement('div');
         previewItem.className = 'file-preview-item';
-        previewItem.appendChild(img);
+        previewItem.appendChild(textbox);
+
         previewContainer.appendChild(previewItem);
-        //img.style.position = "absolute";
-        var imgStyles = window.getComputedStyle(img);
+        nova(textbox);
+    }
+    // appending file name to draggable boxes itself
+    function handleImageUpload(event) {
+        console.log("dragon fly")
+    const container = document.getElementById('imageContainer');
 
-        img.style.width = imgStyles.getPropertyValue('width');
-        img.style.height = imgStyles.getPropertyValue('height');
-        img.style.left = imgStyles.getPropertyValue('left');
-        img.style.top = imgStyles.getPropertyValue('top');
-      };
-    })(file);
-
-    reader.readAsDataURL(file);
-  }
-  event.target.value = '';
-});
-
-
-document.getElementById('add-textbox').addEventListener('click', function() {
-    traffic=0;
-    createTextInput(traffic);
-});
-
-document.getElementById('add-PhoneNumber').addEventListener('click', function() {
-    traffic=1;
-    createTextInput(traffic);
-});
-
-document.getElementById('add-QrCode').addEventListener('click', function() {
-    traffic=2;
-    createTextInput(traffic);
-});
-
-// add textbox/qrcode/phoneNumber => calling nova() for resizing, dragging and rotating feature and added color picker for them.
-var TextName=0
-function createTextInput(traffic) {
-    TextName++;
-    var textbox = document.createElement('input');
-    textbox.type = 'text';
-    if(traffic==1){
-        textbox.value = '%%PhoneNumber%%'; 
-        textbox.setAttribute('readonly', 'true');
-    }if(traffic==2){
-        textbox.value = '%%QrCode%%';
-        textbox.setAttribute('readonly', 'true');
+    if (event.target.files && event.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+        const imageUrl = e.target.result;
+        createImageElement(container, imageUrl);
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
     }
 
+    // Function to create a new image element with uploaded image
+    function createImageElement(container, imageUrl) {
+    const img = document.createElement('img');
+    img.src = imageUrl;
+    container.appendChild(img);
+
+    // Enable dynamic z-index and draggable behavior for the newly added image element
+    enableDynamicZIndex(img);
+    enableDraggable(img);
+    }
+
+    // Event listener for file upload button
+    document.getElementById('file-input').addEventListener('change', handleImageUpload);
 
 
-    textbox.setAttribute('data-type', 'textbox');
-    textbox.setAttribute('Name', TextName);
-    textbox.setAttribute('traffic', traffic); 
-    
-    textbox.placeholder = 'Text';
-    
-    textbox.classList.add('textbox');
-    textbox.style.position = 'absolute';
-    textbox.style['user-select'] = 'none';
-    textbox.style['font-family'] = '"Playfair Display", serif';
-    //textbox.style.display = 'block';
-    textbox.style['font-size'] = '250%';
-    // textbox.style.color = '#17a2b8';
-    textbox.style.color = '#6401fa';
-
-    textbox.style['line-height'] = '1.6';
-    //textbox.style['background-color'] = '#fff';
-    textbox.style['background-color'] = 'transparent';
-
-    textbox.style['background-clip'] = 'padding-box';
-    // textbox.style.border = '0.000000001px solid rgba(67, 87, 133, .2)';
-    // textbox.style.border = '0.0000000001px solid rgba(23, 162, 184,1)';
-    textbox.style.border = '0.0000000001px solid #000';
-
-    textbox.style.transition = 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out';
-    textbox.style.zIndex = 1000000000+traffic-5;
-
-    textbox.style.top = '5vw'; 
-    textbox.style.left = '5vw';
-    textbox.style.width = '25vw';
-    textbox.style.height= '5vh';
-    textbox.style.textAlign = 'center';
-
-    textbox.addEventListener('mousedown', function() {
-    var colorPicker = document.getElementById('text-color-picker');
-    console.log('colorPicker.value1: ',colorPicker.value)
-    textbox.style.color = colorPicker.value;
+    document.getElementById('delete-all').addEventListener('click', function() {
+    console.log('nova')
+    var confirmationModal = document.getElementById('confirmationModal');
+    confirmationModal.style.display = 'block';
+    confirmationModal.style.zIndex=100000000000000
     });
 
-    var previewItem = document.createElement('div');
-    previewItem.className = 'file-preview-item';
-    previewItem.appendChild(textbox);
-
-    previewContainer.appendChild(previewItem);
-    nova(textbox);
-}
-// appending file name to draggable boxes itself
-function handleImageUpload(event) {
-    console.log("dragon fly")
-  const container = document.getElementById('imageContainer');
-
-  if (event.target.files && event.target.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const imageUrl = e.target.result;
-      createImageElement(container, imageUrl);
-    };
-    reader.readAsDataURL(event.target.files[0]);
-  }
-}
-
-// Function to create a new image element with uploaded image
-function createImageElement(container, imageUrl) {
-  const img = document.createElement('img');
-  img.src = imageUrl;
-  container.appendChild(img);
-
-  // Enable dynamic z-index and draggable behavior for the newly added image element
-  enableDynamicZIndex(img);
-  enableDraggable(img);
-}
-
-// Event listener for file upload button
-document.getElementById('file-input').addEventListener('change', handleImageUpload);
-
-// Event listener for delete-all button to show the confirmation modal
-document.getElementById('delete-all').addEventListener('click', function() {
-  var confirmationModal = document.getElementById('confirmationModal');
-  confirmationModal.style.display = 'block'; // Show the confirmation modal
-});
-
-// Event listener for confirm-delete button to handle the confirmation and clearing the container
-document.getElementById('confirmDelete').addEventListener('click', function() {
-  var confirmationModal = document.getElementById('confirmationModal');
-  confirmationModal.style.display = 'none'; // Hide the confirmation modal
-
-  // Clear all elements inside the preview container
-  var previewContainer = document.getElementById('file-preview');
-  previewContainer.innerHTML = '';
-
-  imageNames = [];
-  // Update the image names container
-  var imageNamesContainer = document.getElementById('image-names-container');
-  imageNamesContainer.innerHTML = imageNames.join('<br>');
-});
-
-// Event listener for cancel-delete button to hide the confirmation modal
-document.getElementById('cancelDelete').addEventListener('click', function() {
-  var confirmationModal = document.getElementById('confirmationModal');
-  confirmationModal.style.display = 'none'; // Hide the confirmation modal
-});
-
-// delete all for deleting
-function deleteAllElements() {
-var previewContainer = document.getElementById('file-preview');
-    while (previewContainer.firstChild) {
-        previewContainer.removeChild(previewContainer.firstChild);
-    }
+    document.getElementById('confirmDelete').addEventListener('click', function() {
+    var confirmationModal = document.getElementById('confirmationModal');
+    confirmationModal.style.display = 'none';
+    var previewContainer = document.getElementById('file-preview');
+    previewContainer.innerHTML = '';
     imageNames = [];
     var imageNamesContainer = document.getElementById('image-names-container');
-    imageNamesContainer.innerHTML = '';
-}
-
-// Add event listener for the "Delete All" button
-document.getElementById('delete-all').addEventListener('click', function () {
-// Show the custom confirmation dialog box
-var modal = document.getElementById('confirmationModal');
-modal.style.display = 'block';
-
-// Add event listener for the "Delete" button inside the dialog box
-document.getElementById('confirmDelete').addEventListener('click', function () {
-deleteAllElements();
-modal.style.display = 'none'; // Hide the modal after deletion
-});
-
-// Add event listener for the "Cancel" button inside the dialog box
-document.getElementById('cancelDelete').addEventListener('click', function () {
-modal.style.display = 'none'; // Hide the modal if cancel is clicked
-});
-});
-
-// generating image based on format and stopper. format is (png,jpeg,svg) stopper is (1,2,3) => (1-download image, 2-download base64, 3-download text:'svg')
-async function generateImage(format,stopper) {
-  console.log("Draggable Array contents in this container:", draggableContentsArray);
-
-  var container = document.getElementById('file-preview');
-
-
-  if(heightInput.value && widthInput.value){
-    console.log("heightInput: ",heightInput.value)
-    var R_width=widthInput.value
-    var R_height=heightInput.value
-  }else{
-    var R_width=container.offsetWidth
-    var R_height=container.offsetHeight
-  }
-
-  var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-  svg.setAttribute('width', R_width);
-  svg.setAttribute('height', R_height);
-
-  var P_width=container.offsetWidth
-  var P_height=container.offsetHeight
-
-  var images = container.querySelectorAll('img');
-  draggableContentsArray.forEach(function (i) {
-    console.log("draggableContentsArray.forEach(function (i) {",i)
-    images.forEach(function (img) {
-      var imgFileName = img.getAttribute('data-file-name');
-      
-      if(i==imgFileName){    
-        var img_style_top=parseFloat(img.style.top)
-        var img_style_left=parseFloat(img.style.left)
-        var img_style_width=parseFloat(img.style.width)
-        var img_style_height=parseFloat(img.style.height)
-
-        var img_style_height_Ratio=P_height/img_style_height
-        var img_style_width_Ratio=P_width/img_style_width
-        var img_style_top_Ratio=P_height/img_style_top
-        var img_style_left_Ratio=P_width/img_style_left
-
-        var centerX =  (R_width/img_style_left_Ratio) + (R_width/img_style_width_Ratio) / 2;
-        var centerY = (R_height/img_style_top_Ratio)+ (R_height/img_style_height_Ratio)  / 2;
-
-        var imageElement = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-        imageElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', img.src);
-        imageElement.setAttribute('width',(R_width/img_style_width_Ratio));
-        imageElement.setAttribute('height', (R_height/img_style_height_Ratio));
-        imageElement.setAttribute('preserveAspectRatio', 'none');//very important line
-        
-        var transformValue=img.style.transform;
-        if(transformValue){
-          var rotationMatches = transformValue.match(/rotate\((-?\d+\.?\d*)deg\)/);
-          var rotationDegrees = parseFloat(rotationMatches[1]);
-        }else{
-          rotationDegrees=0;
-        }
-        console.log("rotationDegrees: ",rotationDegrees)
-        imageElement.setAttribute('transform', `rotate(${rotationDegrees} ${centerX} ${centerY} )`);
-        if (img.style.left) {
-          imageElement.setAttribute('x', (R_width/img_style_left_Ratio));
-          imageElement.setAttribute('y', (R_height/img_style_top_Ratio));
-        }
-        svg.appendChild(imageElement);
-        var scale = 1;
-        svg.setAttribute('transform', 'scale(' + scale + ')');
-      }
+    imageNamesContainer.innerHTML = imageNames.join('<br>');
+    //deleteAllElements();
     });
-  });
-  var textboxes = container.querySelectorAll('.textbox');
-  textboxes.forEach(function (textbox) {
-    var traffic = textbox.getAttribute('traffic');
-    if((traffic==2)){ //if((traffic==2 && stopper==3)||(traffic==2 && stopper==1 && format=='svg')){
-        if(stopper==3){
-            QRCode='data:image/png;base64,%%Base64QrImage%%'
+
+    function deleteAllElements() {
+        var previewContainer = document.getElementById('file-preview');
+            while (previewContainer.firstChild) {
+                previewContainer.removeChild(previewContainer.firstChild);
+            }
+            imageNames = [];
+            var imageNamesContainer = document.getElementById('image-names-container');
+            imageNamesContainer.innerHTML = '';
+        }
+
+    // generating image based on format and stopper. format is (png,jpeg,svg) stopper is (1,2,3) => (1-download image, 2-download base64, 3-download text:'svg')
+    async function generateImage(format,stopper) {
+    console.log("Draggable Array contents in this container:", draggableContentsArray);
+
+    var container = document.getElementById('file-preview');
+
+
+    if(heightInput.value && widthInput.value){
+        console.log("heightInput: ",heightInput.value)
+        var R_width=widthInput.value
+        var R_height=heightInput.value
+    }else{
+        var R_width=container.offsetWidth
+        var R_height=container.offsetHeight
     }
 
-        var imageElement = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-        imageElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',QRCode);//QRCode '%%QrCode%%' QRCode
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svg.setAttribute('width', R_width);
+    svg.setAttribute('height', R_height);
+
+    var P_width=container.offsetWidth
+    var P_height=container.offsetHeight
+
+    var images = container.querySelectorAll('img');
+    draggableContentsArray.forEach(function (i) {
+        console.log("draggableContentsArray.forEach(function (i) {",i)
+        images.forEach(function (img) {
+        var imgFileName = img.getAttribute('data-file-name');
+        
+        if(i==imgFileName){    
+            var img_style_top=parseFloat(img.style.top)
+            var img_style_left=parseFloat(img.style.left)
+            var img_style_width=parseFloat(img.style.width)
+            var img_style_height=parseFloat(img.style.height)
+
+            var img_style_height_Ratio=P_height/img_style_height
+            var img_style_width_Ratio=P_width/img_style_width
+            var img_style_top_Ratio=P_height/img_style_top
+            var img_style_left_Ratio=P_width/img_style_left
+
+            var centerX =  (R_width/img_style_left_Ratio) + (R_width/img_style_width_Ratio) / 2;
+            var centerY = (R_height/img_style_top_Ratio)+ (R_height/img_style_height_Ratio)  / 2;
+
+            var imageElement = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+            imageElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', img.src);
+            imageElement.setAttribute('width',(R_width/img_style_width_Ratio));
+            imageElement.setAttribute('height', (R_height/img_style_height_Ratio));
+            imageElement.setAttribute('preserveAspectRatio', 'none');//very important line
+            
+            var transformValue=img.style.transform;
+            if(transformValue){
+            var rotationMatches = transformValue.match(/rotate\((-?\d+\.?\d*)deg\)/);
+            var rotationDegrees = parseFloat(rotationMatches[1]);
+            }else{
+            rotationDegrees=0;
+            }
+            console.log("rotationDegrees: ",rotationDegrees)
+            imageElement.setAttribute('transform', `rotate(${rotationDegrees} ${centerX} ${centerY} )`);
+            if (img.style.left) {
+            imageElement.setAttribute('x', (R_width/img_style_left_Ratio));
+            imageElement.setAttribute('y', (R_height/img_style_top_Ratio));
+            }
+            svg.appendChild(imageElement);
+            var scale = 1;
+            svg.setAttribute('transform', 'scale(' + scale + ')');
+        }
+        });
+    });
+    var textboxes = container.querySelectorAll('.textbox');
+    textboxes.forEach(function (textbox) {
+        var traffic = textbox.getAttribute('traffic');
+        if((traffic==2)){ //if((traffic==2 && stopper==3)||(traffic==2 && stopper==1 && format=='svg')){
+            if(stopper==3){
+                QRCode='data:image/png;base64,%%Base64QrImage%%'
+        }
+
+            var imageElement = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+            imageElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',QRCode);//QRCode '%%QrCode%%' QRCode
+            var transformValue = textbox.style.transform;
+            var rotationDegrees = transformValue ? parseFloat(transformValue.match(/rotate\((-?\d+\.?\d*)deg\)/)[1]) : 0;
+            var b=0
+            // for converting vh,vw to px unit
+            function racer(a){
+            var value = parseFloat(a)
+            if (a.includes("vh")) {
+            b= (value * window.innerHeight) / 100;
+            } else if(a.includes("vw")) {
+            b= (value * window.innerWidth) / 100;
+            }else{
+            b=value
+            }
+            return b;
+        }
+            var l=racer(textbox.style.left)-2 // css
+            var t=racer(textbox.style.top)-1 // css
+            var w=racer(textbox.style.width)-4 //css
+            var h=racer(textbox.style.height)-2 // css
+        
+            var l_Ratio=P_width/l
+            var t_Ratio=P_height/t
+            var w_Ratio=P_width/w
+            var h_Ratio=P_height/h
+        
+            var centerX =  (R_width/l_Ratio) + (R_width/w_Ratio) / 2;
+            var centerY = (R_height/t_Ratio)+ (R_height/h_Ratio)  / 2;
+            imageElement.setAttribute('x', (R_width/l_Ratio));
+            imageElement.setAttribute('y', (R_height/t_Ratio));
+
+            imageElement.setAttribute('width',(R_width/w_Ratio));
+            imageElement.setAttribute('height', (R_height/h_Ratio));
+            imageElement.setAttribute('preserveAspectRatio', 'none');
+            imageElement.setAttribute('transform', `rotate(${rotationDegrees} ${centerX} ${centerY})`);
+
+            svg.appendChild(imageElement);
+            var scale = 1;
+            svg.setAttribute('transform', 'scale(' + scale + ')');
+            
+        }else{
+        var textElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         var transformValue = textbox.style.transform;
         var rotationDegrees = transformValue ? parseFloat(transformValue.match(/rotate\((-?\d+\.?\d*)deg\)/)[1]) : 0;
+
         var b=0
+        
         // for converting vh,vw to px unit
         function racer(a){
         var value = parseFloat(a)
         if (a.includes("vh")) {
-          b= (value * window.innerHeight) / 100;
+        b= (value * window.innerHeight) / 100;
         } else if(a.includes("vw")) {
-          b= (value * window.innerWidth) / 100;
+        b= (value * window.innerWidth) / 100;
         }else{
-          b=value
+        b=value
         }
         return b;
-      }
+    }
         var l=racer(textbox.style.left)-2 // css
         var t=racer(textbox.style.top)-1 // css
         var w=racer(textbox.style.width)-4 //css
         var h=racer(textbox.style.height)-2 // css
-    
+
         var l_Ratio=P_width/l
         var t_Ratio=P_height/t
         var w_Ratio=P_width/w
         var h_Ratio=P_height/h
-    
+
         var centerX =  (R_width/l_Ratio) + (R_width/w_Ratio) / 2;
         var centerY = (R_height/t_Ratio)+ (R_height/h_Ratio)  / 2;
-        imageElement.setAttribute('x', (R_width/l_Ratio));
-        imageElement.setAttribute('y', (R_height/t_Ratio));
 
-        imageElement.setAttribute('width',(R_width/w_Ratio));
-        imageElement.setAttribute('height', (R_height/h_Ratio));
-        imageElement.setAttribute('preserveAspectRatio', 'none');
-        imageElement.setAttribute('transform', `rotate(${rotationDegrees} ${centerX} ${centerY})`);
+        textElement.setAttribute('transform', `rotate(${rotationDegrees} ${centerX} ${centerY})`);
 
-        svg.appendChild(imageElement);
+        // getting textwidth for ensuring it is positioned well. if not, it will be positioned well :)
+        function getTextWidth(text, fontSize, fontFamily) {
+        var tempSpan = document.createElement('span');
+        tempSpan.style.fontSize = fontSize;
+        tempSpan.style.fontFamily = fontFamily;
+        tempSpan.style.visibility = 'hidden';
+        tempSpan.textContent = text;
+        
+        document.body.appendChild(tempSpan);
+        var width = tempSpan.offsetWidth;      
+        document.body.removeChild(tempSpan);
+        return width;
+        }
+        var textWidth = getTextWidth(textbox.value, textbox.style.fontSize, textbox.style['font-family']);
+        textWidth_Ratio=P_width/textWidth
+
+        textElement.setAttribute('x', (R_width/l_Ratio)+((R_width/w_Ratio) -(R_width/textWidth_Ratio))/2);
+        textElement.setAttribute('y', (R_height/t_Ratio)+(R_height/h_Ratio));
+
+
+        font_size=textbox.style.fontSize
+        font_size_value=parseFloat(font_size)
+        if(font_size.includes("%")){
+        addon='%'
+        }else if(font_size.includes("px")){
+        addon='px'
+        }else{
+        addon='vh'
+        }
+        font_size_value_Ratio=P_height/font_size_value
+        new_font_size_value=R_height/font_size_value_Ratio+addon
+
+        textElement.setAttribute('fill', textbox.style.color);
+        textElement.setAttribute('font-family', textbox.style['font-family']);
+        textElement.setAttribute('font-size', new_font_size_value);
+
+        textElement.innerHTML = textbox.value;
+        svg.appendChild(textElement);
         var scale = 1;
         svg.setAttribute('transform', 'scale(' + scale + ')');
-        
-    }else{
-    var textElement = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    var transformValue = textbox.style.transform;
-    var rotationDegrees = transformValue ? parseFloat(transformValue.match(/rotate\((-?\d+\.?\d*)deg\)/)[1]) : 0;
+        }
+    });
 
-    var b=0
-    
-    // for converting vh,vw to px unit
-    function racer(a){
-    var value = parseFloat(a)
-    if (a.includes("vh")) {
-      b= (value * window.innerHeight) / 100;
-    } else if(a.includes("vw")) {
-      b= (value * window.innerWidth) / 100;
-    }else{
-      b=value
-    }
-    return b;
-  }
-    var l=racer(textbox.style.left)-2 // css
-    var t=racer(textbox.style.top)-1 // css
-    var w=racer(textbox.style.width)-4 //css
-    var h=racer(textbox.style.height)-2 // css
-
-    var l_Ratio=P_width/l
-    var t_Ratio=P_height/t
-    var w_Ratio=P_width/w
-    var h_Ratio=P_height/h
-
-    var centerX =  (R_width/l_Ratio) + (R_width/w_Ratio) / 2;
-    var centerY = (R_height/t_Ratio)+ (R_height/h_Ratio)  / 2;
-
-    textElement.setAttribute('transform', `rotate(${rotationDegrees} ${centerX} ${centerY})`);
-
-    // getting textwidth for ensuring it is positioned well. if not, it will be positioned well :)
-    function getTextWidth(text, fontSize, fontFamily) {
-      var tempSpan = document.createElement('span');
-      tempSpan.style.fontSize = fontSize;
-      tempSpan.style.fontFamily = fontFamily;
-      tempSpan.style.visibility = 'hidden';
-      tempSpan.textContent = text;
-    
-      document.body.appendChild(tempSpan);
-      var width = tempSpan.offsetWidth;      
-      document.body.removeChild(tempSpan);
-      return width;
-    }
-    var textWidth = getTextWidth(textbox.value, textbox.style.fontSize, textbox.style['font-family']);
-    textWidth_Ratio=P_width/textWidth
-
-    textElement.setAttribute('x', (R_width/l_Ratio)+((R_width/w_Ratio) -(R_width/textWidth_Ratio))/2);
-    textElement.setAttribute('y', (R_height/t_Ratio)+(R_height/h_Ratio));
-
-
-    font_size=textbox.style.fontSize
-    font_size_value=parseFloat(font_size)
-    if(font_size.includes("%")){
-      addon='%'
-    }else if(font_size.includes("px")){
-      addon='px'
-    }else{
-      addon='vh'
-    }
-    font_size_value_Ratio=P_height/font_size_value
-    new_font_size_value=R_height/font_size_value_Ratio+addon
-
-    textElement.setAttribute('fill', textbox.style.color);
-    textElement.setAttribute('font-family', textbox.style['font-family']);
-    textElement.setAttribute('font-size', new_font_size_value);
-
-    textElement.innerHTML = textbox.value;
-    svg.appendChild(textElement);
     var scale = 1;
+    svg.setAttribute('width', parseFloat(svg.getAttribute('width')) * scale);
+    svg.setAttribute('height', parseFloat(svg.getAttribute('height')) * scale);
+
     svg.setAttribute('transform', 'scale(' + scale + ')');
-    }
-  });
 
-  var scale = 1;
-  svg.setAttribute('width', parseFloat(svg.getAttribute('width')) * scale);
-  svg.setAttribute('height', parseFloat(svg.getAttribute('height')) * scale);
+    var serializer = new XMLSerializer();
+    var svgString = serializer.serializeToString(svg);
 
-svg.setAttribute('transform', 'scale(' + scale + ')');
+    var imageDataURL;
+    if (format === 'jpeg') {
+        var canvas = document.createElement('canvas');
+        canvas.width = R_width;
+        canvas.height = R_height;
+        var ctx = canvas.getContext('2d');
 
-  var serializer = new XMLSerializer();
-  var svgString = serializer.serializeToString(svg);
-
-  var imageDataURL;
-  if (format === 'jpeg') {
-    var canvas = document.createElement('canvas');
-    canvas.width = R_width;
-    canvas.height = R_height;
-    var ctx = canvas.getContext('2d');
-
-    var Img = new Image();
-    Img.src = 'data:image/svg+xml;base64,' + btoa(svgString);
-    Img.onload = function () {
-        ctx.drawImage(Img, 0, 0, canvas.width, canvas.height);
-        imageDataURL = canvas.toDataURL('image/jpeg', 1.0);
-        console.log("imageDataURL: ",imageDataURL)
-        if(stopper==1){
-            var downloadLink = document.createElement('a');
-            downloadLink.href = imageDataURL;
-            var currentDate = new Date();
-            var dateString = currentDate.toISOString().replace(/[:.]/g, '-');
-            downloadLink.download = 'container_image_'+dateString+format;
-            downloadLink.click();
-        }if(stopper==2){
-            base64URL = imageDataURL.split(',')[1]; 
-            var currentDate = new Date();
-            var dateString = currentDate.toISOString().replace(/[:.]/g, '-');
-        
-            var filename = 'generated_image'+dateString+'.txt';
-            console.log("base64URL: ",base64URL)
-        
-            downloadDataURLAsFile(base64URL, filename);
-            // downloading base 64 as txt file
-            function downloadDataURLAsFile(dataURL, filename) {
-                console.log("dataURL: ",dataURL)
+        var Img = new Image();
+        Img.src = 'data:image/svg+xml;base64,' + btoa(svgString);
+        Img.onload = function () {
+            ctx.drawImage(Img, 0, 0, canvas.width, canvas.height);
+            imageDataURL = canvas.toDataURL('image/jpeg', 1.0);
+            console.log("imageDataURL: ",imageDataURL)
+            if(stopper==1){
+                var downloadLink = document.createElement('a');
+                downloadLink.href = imageDataURL;
+                var currentDate = new Date();
+                var dateString = currentDate.toISOString().replace(/[:.]/g, '-');
+                downloadLink.download = 'container_image_'+dateString+format;
+                downloadLink.click();
+            }if(stopper==2){
+                base64URL = imageDataURL.split(',')[1]; 
+                var currentDate = new Date();
+                var dateString = currentDate.toISOString().replace(/[:.]/g, '-');
             
+                var filename = 'generated_image'+dateString+'.txt';
+                console.log("base64URL: ",base64URL)
+            
+                downloadDataURLAsFile(base64URL, filename);
+                // downloading base 64 as txt file
+                function downloadDataURLAsFile(dataURL, filename) {
+                    console.log("dataURL: ",dataURL)
+                
+                    var textData = dataURL// Extract the Base64 data (skip the data:image/png;base64, part)
+                    var blob = new Blob([textData], { type: 'text/plain' });
+                
+                    var url = URL.createObjectURL(blob);
+                
+                    var downloadLink = document.createElement('a');
+                    downloadLink.href = url;
+                    downloadLink.download = filename;
+                    document.body.appendChild(downloadLink);
+                
+                    downloadLink.click();
+                
+                    // Clean up the created URL and link
+                    URL.revokeObjectURL(url);
+                    downloadLink.remove();
+                }
+            }if(stopper==3){
+                console.log("stopper: ",stopper)
+                //base64URL = imageDataURL.split(',')[1];//
+                var currentDate = new Date();//Del
+                var dateString = currentDate.toISOString().replace(/[:.]/g, '-');//Del
+            
+                var filename = 'generated_image'+dateString+'.txt';
+                //console.log("base64URL: ",base64URL)//
+            
+                downloadDataURLAsFile(svgString, filename);
+                // downloading svg as txt file
+                function downloadDataURLAsFile(dataURL, filename) {
+                console.log("dataURL: ",dataURL)
+                
                 var textData = dataURL// Extract the Base64 data (skip the data:image/png;base64, part)
                 var blob = new Blob([textData], { type: 'text/plain' });
-            
+                
                 var url = URL.createObjectURL(blob);
-            
+                
                 var downloadLink = document.createElement('a');
                 downloadLink.href = url;
                 downloadLink.download = filename;
                 document.body.appendChild(downloadLink);
-            
+                
                 downloadLink.click();
-            
+                
                 // Clean up the created URL and link
                 URL.revokeObjectURL(url);
                 downloadLink.remove();
+                }
             }
-        }if(stopper==3){
+        };
+
+    }else if (format === 'svg') {
+        var svgDataURL = 'data:image/svg+xml;base64,' + btoa(svgString);
+        imageDataURL = svgDataURL;
+        if(stopper==3){
             console.log("stopper: ",stopper)
-            //base64URL = imageDataURL.split(',')[1];//
             var currentDate = new Date();//Del
-            var dateString = currentDate.toISOString().replace(/[:.]/g, '-');//Del
+            var dateString = currentDate.toISOString().replace(/[:.]/g, '-');
         
             var filename = 'generated_image'+dateString+'.txt';
-            //console.log("base64URL: ",base64URL)//
+            // downloading svg as txt file
         
             downloadDataURLAsFile(svgString, filename);
-            // downloading svg as txt file
-            function downloadDataURLAsFile(dataURL, filename) {
-              console.log("dataURL: ",dataURL)
-            
-              var textData = dataURL// Extract the Base64 data (skip the data:image/png;base64, part)
-              var blob = new Blob([textData], { type: 'text/plain' });
-            
-              var url = URL.createObjectURL(blob);
-            
-              var downloadLink = document.createElement('a');
-              downloadLink.href = url;
-              downloadLink.download = filename;
-              document.body.appendChild(downloadLink);
-            
-              downloadLink.click();
-            
-              // Clean up the created URL and link
-              URL.revokeObjectURL(url);
-              downloadLink.remove();
-            }
-        }
-    };
-
-  }else if (format === 'svg') {
-      var svgDataURL = 'data:image/svg+xml;base64,' + btoa(svgString);
-      imageDataURL = svgDataURL;
-      if(stopper==3){
-        console.log("stopper: ",stopper)
-        var currentDate = new Date();//Del
-        var dateString = currentDate.toISOString().replace(/[:.]/g, '-');
-    
-        var filename = 'generated_image'+dateString+'.txt';
-        // downloading svg as txt file
-    
-        downloadDataURLAsFile(svgString, filename);
-        function downloadDataURLAsFile(dataURL, filename) {
-          console.log("dataURL: ",dataURL)
-        
-          var textData = dataURL// Extract the Base64 data (skip the data:image/png;base64, part)
-          var blob = new Blob([textData], { type: 'text/plain' });
-        
-          var url = URL.createObjectURL(blob);
-        
-          var downloadLink = document.createElement('a');
-          downloadLink.href = url;
-          downloadLink.download = filename;
-          document.body.appendChild(downloadLink);
-        
-          downloadLink.click();
-        
-          // Clean up the created URL and link
-          URL.revokeObjectURL(url);
-          downloadLink.remove();
-        }
-    }
-
-  } else {
-    var canvas = document.createElement('canvas');
-    canvas.width = R_width;
-    canvas.height = R_height;
-    var ctx = canvas.getContext('2d');
-
-    var Img = new Image();
-    Img.src = 'data:image/svg+xml;base64,' + btoa(svgString);
-    Img.onload = function () {
-        ctx.drawImage(Img, 0, 0, canvas.width, canvas.height);
-        imageDataURL = canvas.toDataURL('image/png', 1.0);
-        if(stopper==1){
-            var downloadLink = document.createElement('a');
-            downloadLink.href = imageDataURL;
-            var currentDate = new Date();
-            var dateString = currentDate.toISOString().replace(/[:.]/g, '-');
-            downloadLink.download = 'container_image_'+dateString+format;
-            downloadLink.click();
-        }if(stopper==2){
-            base64URL = imageDataURL.split(',')[1]; 
-            var currentDate = new Date();
-            var dateString = currentDate.toISOString().replace(/[:.]/g, '-');
-        
-            var filename = 'generated_image'+dateString+'.txt';
-            console.log("base64URL: ",base64URL)
-        
-            downloadDataURLAsFile(base64URL, filename);
-
-            // downloading base 64 as txt file
-            function downloadDataURLAsFile(dataURL, filename) {
-                console.log("dataURL: ",dataURL)
-            
-                var textData = dataURL// Extract the Base64 data (skip the data:image/png;base64, part)
-                var blob = new Blob([textData], { type: 'text/plain' });
-            
-                var url = URL.createObjectURL(blob);
-            
-                var downloadLink = document.createElement('a');
-                downloadLink.href = url;
-                downloadLink.download = filename;
-                document.body.appendChild(downloadLink);
-            
-                downloadLink.click();
-            
-                // Clean up the created URL and link
-                URL.revokeObjectURL(url);
-                downloadLink.remove();
-            }
-        }if(stopper==3){
-            console.log("stopper: ",stopper)
-            //base64URL = imageDataURL.split(',')[1];//
-            var currentDate = new Date();//Del
-            var dateString = currentDate.toISOString().replace(/[:.]/g, '-');//Del
-        
-            var filename = 'generated_image'+dateString+'.txt';
-            //console.log("base64URL: ",base64URL)//
-        
-            downloadDataURLAsFile(svgString, filename);            // downloading svg as txt file
             function downloadDataURLAsFile(dataURL, filename) {
             console.log("dataURL: ",dataURL)
             
@@ -1223,866 +977,887 @@ svg.setAttribute('transform', 'scale(' + scale + ')');
             downloadLink.remove();
             }
         }
-    };
-  }
-      
-  textboxes.forEach(function (textbox) {
-    textbox.style.visibility = 'visible';
-  });
-  console.log("imageDataURL:) ",imageDataURL)
-  return imageDataURL;
-}
-document.getElementById('download-svg-string').addEventListener('click', function () {
-    download_svg_string();
-  });
-document.getElementById('download-icon').addEventListener('click', function () {
-  downloadIcon();
-});
 
-// for downloading svgtxt and base 64 as textfile
-function downloadDataURLAsFile(dataURL, filename) {
-  console.log("dataURL: ",dataURL)
+    } else {
+        var canvas = document.createElement('canvas');
+        canvas.width = R_width;
+        canvas.height = R_height;
+        var ctx = canvas.getContext('2d');
 
-  var textData = dataURL.split(',')[1]; // Extract the Base64 data (skip the data:image/png;base64, part)
-  var blob = new Blob([textData], { type: 'text/plain' });
+        var Img = new Image();
+        Img.src = 'data:image/svg+xml;base64,' + btoa(svgString);
+        Img.onload = function () {
+            ctx.drawImage(Img, 0, 0, canvas.width, canvas.height);
+            imageDataURL = canvas.toDataURL('image/png', 1.0);
+            if(stopper==1){
+                var downloadLink = document.createElement('a');
+                downloadLink.href = imageDataURL;
+                var currentDate = new Date();
+                var dateString = currentDate.toISOString().replace(/[:.]/g, '-');
+                downloadLink.download = 'container_image_'+dateString+format;
+                downloadLink.click();
+            }if(stopper==2){
+                base64URL = imageDataURL.split(',')[1]; 
+                var currentDate = new Date();
+                var dateString = currentDate.toISOString().replace(/[:.]/g, '-');
+            
+                var filename = 'generated_image'+dateString+'.txt';
+                console.log("base64URL: ",base64URL)
+            
+                downloadDataURLAsFile(base64URL, filename);
 
-  var url = URL.createObjectURL(blob);
-
-  var downloadLink = document.createElement('a');
-  downloadLink.href = url;
-  downloadLink.download = filename;
-  document.body.appendChild(downloadLink);
-
-  downloadLink.click();
-
-  // Clean up the created URL and link
-  URL.revokeObjectURL(url);
-  downloadLink.remove();
-}
-
-// passing stopper and format and calling generateImage
-async function download_svg_string() {
-    try {
-        var format = document.getElementById('image-format').value;
-        var stopper =3
-        var generatedImageDataURL = await generateImage(format,stopper);
-    } catch (error) {
-      console.error(error);
-      alert_()
+                // downloading base 64 as txt file
+                function downloadDataURLAsFile(dataURL, filename) {
+                    console.log("dataURL: ",dataURL)
+                
+                    var textData = dataURL// Extract the Base64 data (skip the data:image/png;base64, part)
+                    var blob = new Blob([textData], { type: 'text/plain' });
+                
+                    var url = URL.createObjectURL(blob);
+                
+                    var downloadLink = document.createElement('a');
+                    downloadLink.href = url;
+                    downloadLink.download = filename;
+                    document.body.appendChild(downloadLink);
+                
+                    downloadLink.click();
+                
+                    // Clean up the created URL and link
+                    URL.revokeObjectURL(url);
+                    downloadLink.remove();
+                }
+            }if(stopper==3){
+                console.log("stopper: ",stopper)
+                //base64URL = imageDataURL.split(',')[1];//
+                var currentDate = new Date();//Del
+                var dateString = currentDate.toISOString().replace(/[:.]/g, '-');//Del
+            
+                var filename = 'generated_image'+dateString+'.txt';
+                //console.log("base64URL: ",base64URL)//
+            
+                downloadDataURLAsFile(svgString, filename);            // downloading svg as txt file
+                function downloadDataURLAsFile(dataURL, filename) {
+                console.log("dataURL: ",dataURL)
+                
+                var textData = dataURL// Extract the Base64 data (skip the data:image/png;base64, part)
+                var blob = new Blob([textData], { type: 'text/plain' });
+                
+                var url = URL.createObjectURL(blob);
+                
+                var downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = filename;
+                document.body.appendChild(downloadLink);
+                
+                downloadLink.click();
+                
+                // Clean up the created URL and link
+                URL.revokeObjectURL(url);
+                downloadLink.remove();
+                }
+            }
+        };
     }
-  }
+        
+    textboxes.forEach(function (textbox) {
+        textbox.style.visibility = 'visible';
+    });
+    console.log("imageDataURL:) ",imageDataURL)
+    return imageDataURL;
+    }
+    document.getElementById('download-svg-string').addEventListener('click', function () {
+        download_svg_string();
+    });
+    document.getElementById('download-icon').addEventListener('click', function () {
+    downloadIcon();
+    });
 
-// convert to base 64 and pass to downloadDataURLAsFile
-async function downloadIcon() {
-  try {
-    var format = document.getElementById('image-format').value;
-    var stopper =2
-    if(format=='svg'){
-      var generatedImageDataURL = await generateImage(format,stopper);
-    
-      console.log("Generated Image Data URL:", generatedImageDataURL);
-      var currentDate = new Date();//Del
-      var dateString = currentDate.toISOString().replace(/[:.]/g, '-');//Del
-  
-      var filename = 'generated_image'+dateString+'.txt';
-      console.log("generatedImageDataURL: ",generatedImageDataURL)
-  
-      downloadDataURLAsFile(generatedImageDataURL, filename);
-      }else{
-        var generatedImageDataURL = await generateImage(format,stopper);
-      }
+    // for downloading svgtxt and base 64 as textfile
+    function downloadDataURLAsFile(dataURL, filename) {
+    console.log("dataURL: ",dataURL)
 
-  } catch (error) {
-    console.error(error);
-    alert_()
-  }
-}
-function alert_(){
-  var previousAlert = document.querySelector('.alert.alert-danger');
-  if (previousAlert) {
-    previousAlert.remove();
-  }
+    var textData = dataURL.split(',')[1]; // Extract the Base64 data (skip the data:image/png;base64, part)
+    var blob = new Blob([textData], { type: 'text/plain' });
 
-  var alertDiv = document.createElement('div');
-  alertDiv.className = 'alert alert-danger alert-dismissible fade show';
-  alertDiv.setAttribute('role', 'alert');
+    var url = URL.createObjectURL(blob);
 
-  var strongElement = document.createElement('strong');
-  strongElement.textContent = 'Kindly Check your Internet connectivity!';
+    var downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = filename;
+    document.body.appendChild(downloadLink);
 
-  var messageText = document.createTextNode('An error occurred. Please check the fields below.');
+    downloadLink.click();
 
-  var closeButton = document.createElement('button');
-  closeButton.type = 'button';
-  closeButton.className = 'close';
-  closeButton.setAttribute('data-dismiss', 'alert');
-  closeButton.setAttribute('aria-label', 'Close');
+    // Clean up the created URL and link
+    URL.revokeObjectURL(url);
+    downloadLink.remove();
+    }
 
-  var closeSpan = document.createElement('span');
-  closeSpan.setAttribute('aria-hidden', 'true');
-  closeSpan.innerHTML = '&times;';
-
-  closeButton.appendChild(closeSpan);
-
-  alertDiv.appendChild(strongElement);
-  alertDiv.appendChild(messageText);
-  alertDiv.appendChild(closeButton);
-
-  // Add the alert to the DOM
-  var alertContainer = document.getElementById('alert alert-danger alert-dismissible fade show'); // Replace 'alert-container' with the actual ID of the container element for alerts
-  alertContainer.appendChild(alertDiv);
-  alertDiv.scrollIntoView({ behavior: 'smooth' });
-  setTimeout(function() {
-    alertDiv.remove();
-  }, 7500);
-}
-// Function to create the "Download Image" button
-function createDownloadButton() {
-  document.getElementById('download-image').addEventListener('click', function () {
-    // Generate the image first before triggering the download
-    var format = document.getElementById('image-format').value;
-    var stopper=1
-    if(format=='svg'){
-    generateImage(format,stopper)
-      .then(function (imageDataURL) {
-        // Trigger the download when the "Download Image" button is clicked
-        var downloadLink = document.createElement('a');
-        downloadLink.href = imageDataURL;
-        var currentDate = new Date();//Del
-        var dateString = currentDate.toISOString().replace(/[:.]/g, '-');//Del
-        downloadLink.download = 'container_image_'+dateString+format;// Del 'dateString'
-        downloadLink.click();
-      })
-      .catch(function (error) {
+    // passing stopper and format and calling generateImage
+    async function download_svg_string() {
+        try {
+            var format = document.getElementById('image-format').value;
+            var stopper =3
+            var generatedImageDataURL = await generateImage(format,stopper);
+        } catch (error) {
         console.error(error);
         alert_()
-      });
-    }else{
-      generateImage(format,stopper)
+        }
     }
-  });
-}
 
-// Call the function to create the download button
-createDownloadButton();
-
-// enabling rotating, movable and resizable feature
-function makeResizableAndDraggable(element) {
-    flag=0
-    //var createBoxButton = document.getElementById("createBoxButton");
-    //var previewContainer = document.getElementById("file-preview");
-
-    //element.addEventListener("click", function () {
-        //Create box-wrapper and box elements
-        var zIndex = window.getComputedStyle(element).getPropertyValue('z-index');
-
-        var existingBox = previewContainer.querySelector(".box-wrapper");
-        if (existingBox) {
-            previewContainer.removeChild(existingBox);
+    // convert to base 64 and pass to downloadDataURLAsFile
+    async function downloadIcon() {
+    try {
+        var format = document.getElementById('image-format').value;
+        var stopper =2
+        if(format=='svg'){
+        var generatedImageDataURL = await generateImage(format,stopper);
+        
+        console.log("Generated Image Data URL:", generatedImageDataURL);
+        var currentDate = new Date();//Del
+        var dateString = currentDate.toISOString().replace(/[:.]/g, '-');//Del
+    
+        var filename = 'generated_image'+dateString+'.txt';
+        console.log("generatedImageDataURL: ",generatedImageDataURL)
+    
+        downloadDataURLAsFile(generatedImageDataURL, filename);
+        }else{
+            var generatedImageDataURL = await generateImage(format,stopper);
         }
 
-        var boxWrapper = document.createElement("div");
-        boxWrapper.classList.add("box-wrapper");
-        
-        var box = document.createElement("div");
-        box.classList.add("box");
-        box.id = "main-box";
-        var dots = [
-            "left-top", "left-bottom", "right-top", "right-bottom",
-            "top-mid", "bottom-mid", "left-mid", "right-mid", "rotate"
-        ];
+    } catch (error) {
+        console.error(error);
+        alert_()
+    }
+    }
+    function alert_(){
+    var previousAlert = document.querySelector('.alert.alert-danger');
+    if (previousAlert) {
+        previousAlert.remove();
+    }
 
-        dots.forEach((dotClass, index) => {
-            var dot = document.createElement("div");
-            dot.classList.add("dot", dotClass);
-            dot.id = dotClass; // Add this line to assign IDs to dot elements
-            box.appendChild(dot);
+    var alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+    alertDiv.setAttribute('role', 'alert');
+
+    var strongElement = document.createElement('strong');
+    strongElement.textContent = 'Kindly Check your Internet connectivity!';
+
+    var messageText = document.createTextNode('An error occurred. Please check the fields below.');
+
+    var closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'close';
+    closeButton.setAttribute('data-dismiss', 'alert');
+    closeButton.setAttribute('aria-label', 'Close');
+
+    var closeSpan = document.createElement('span');
+    closeSpan.setAttribute('aria-hidden', 'true');
+    closeSpan.innerHTML = '&times;';
+
+    closeButton.appendChild(closeSpan);
+
+    alertDiv.appendChild(strongElement);
+    alertDiv.appendChild(messageText);
+    alertDiv.appendChild(closeButton);
+
+    // Add the alert to the DOM
+    var alertContainer = document.getElementById('alert alert-danger alert-dismissible fade show'); // Replace 'alert-container' with the actual ID of the container element for alerts
+    alertContainer.appendChild(alertDiv);
+    alertDiv.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(function() {
+        alertDiv.remove();
+    }, 7500);
+    }
+    // Function to create the "Download Image" button
+    function createDownloadButton() {
+    document.getElementById('download-image').addEventListener('click', function () {
+        // Generate the image first before triggering the download
+        var format = document.getElementById('image-format').value;
+        var stopper=1
+        if(format=='svg'){
+        generateImage(format,stopper)
+        .then(function (imageDataURL) {
+            // Trigger the download when the "Download Image" button is clicked
+            var downloadLink = document.createElement('a');
+            downloadLink.href = imageDataURL;
+            var currentDate = new Date();//Del
+            var dateString = currentDate.toISOString().replace(/[:.]/g, '-');//Del
+            downloadLink.download = 'container_image_'+dateString+format;// Del 'dateString'
+            downloadLink.click();
+        })
+        .catch(function (error) {
+            console.error(error);
+            alert_()
         });
-
-
-        // Add the rotate link
-        var rotateLink = document.createElement("div");
-        rotateLink.classList.add("rotate-link");
-        box.appendChild(rotateLink);
-
-        boxWrapper.appendChild(box);
-        previewContainer.appendChild(boxWrapper);
-    // var box = document.getElementById("box");
-    // var boxWrapper = document.getElementById("box-wrapper");
-    const minWidth = 1;
-    const minHeight = 1;
-
-
-    var initX, initY, mousePressX, mousePressY, initW, initH, initRotate;
-
-
-    function teraspin(z){ // passing rotation angle
-        boxWrapper.style.transform =z;
-    }
-    // assigning left and top to box wrapper
-    function repositionElement(x, y) {
-        boxWrapper.style.left = x + 'px';
-        boxWrapper.style.top = y + 'px';
-    }
-    // assigning left and top to box wrapper
-    function repositionElementSuper(x, y) {
-    boxWrapper.style.left = x+'px' ;
-    boxWrapper.style.top = y+'px';
-    }
-    // assigning height and width to box
-    function resize(w, h) {
-        box.style.width = w + 'px';
-        box.style.height = h + 'px';
-    }
-    // assigning height and width to box
-    function resizeSuper(w, h) {
-      box.style.width = w;
-      box.style.height = h;
-    }
-    // getting the anglr of rotation
-    function getCurrentRotation(el) {
-        var st = window.getComputedStyle(el, null);
-        var tm = st.getPropertyValue("-webkit-transform") ||
-            st.getPropertyValue("-moz-transform") ||
-            st.getPropertyValue("-ms-transform") ||
-            st.getPropertyValue("-o-transform") ||
-            st.getPropertyValue("transform")
-        "none";
-        if (tm != "none") {
-            var values = tm.split('(')[1].split(')')[0].split(',');
-            var angle = Math.round(Math.atan2(values[1], values[0]) * (180 / Math.PI));
-            return (angle < 0 ? angle + 360 : angle);
+        }else{
+        generateImage(format,stopper)
         }
-        return 0;
-    }
-    var a=0;
-
-    // applying rotation angle
-    function rotateBox(deg) {
-        boxWrapper.style.transform = `rotate(${deg}deg)`;
-    }
-    boxWrapper.addEventListener('mousedown', function (event) {
-        if (event.target.className.indexOf("dot") > -1) {
-            return;
-        }
-        initX = this.offsetLeft;
-        initY = this.offsetTop;
-        mousePressX = event.clientX;
-        mousePressY = event.clientY;
-
-        // updating delete icon position
-        function eventMoveHandler(event) {
-            if(flag==0){
-                repositionElement(initX + (event.clientX - mousePressX),
-                initY + (event.clientY - mousePressY));
-
-                element.style.left = initX + (event.clientX - mousePressX)-element.width/2 + 'px';
-                element.style.top = initY + (event.clientY - mousePressY)-element.height/2 + 'px';
-                updateDeleteIconPosition()
-
-            }else if(flag==1){
-                repositionElementSuper(initX + (event.clientX - mousePressX),
-                initY + (event.clientY - mousePressY));
-
-                // Parse the element width and height to get the numeric value and units
-                var elementWidthValue = parseFloat(element.style.width);
-                var elementHeightValue = parseFloat(element.style.height);
-                var elementWidthUnit = element.style.width.replace(elementWidthValue, '').trim();
-                var elementHeightUnit = element.style.height.replace(elementHeightValue, '').trim();
-                
-                // Calculate new position based on element width and height
-                var newLeft, newTop;
-                
-                if (elementWidthUnit === 'vw') {
-                    var elementWidthPixels = elementWidthValue * window.innerWidth / 100;
-                    newLeft = initX + (event.clientX - mousePressX) - elementWidthPixels / 2;
-                } else {
-                    newLeft = initX + (event.clientX - mousePressX) - elementWidthValue / 2;
-                }
-                
-                if (elementHeightUnit === 'vh') {
-                    var elementHeightPixels = elementHeightValue * window.innerHeight / 100;
-                    newTop = initY + (event.clientY - mousePressY) - elementHeightPixels / 2;
-                } else {
-                    newTop = initY + (event.clientY - mousePressY) - elementHeightValue / 2;
-                }
-
-                // Set the new position for the element
-                element.style.left = newLeft + 'px';
-                element.style.top = newTop + 'px';
-                updateDeleteIconPosition()
-            }
-        }
-
-        box.addEventListener('mousemove', eventMoveHandler, false);
-        window.addEventListener('mouseup', function eventEndHandler() {
-            box.removeEventListener('mousemove', eventMoveHandler, false);
-            window.removeEventListener('mouseup', eventEndHandler);
-        }, false);
-
-    }, false);
-
-    var rightMid = document.getElementById("right-mid");
-    var leftMid = document.getElementById("left-mid");
-    var topMid = document.getElementById("top-mid");
-    var bottomMid = document.getElementById("bottom-mid");
-
-    var leftTop = document.getElementById("left-top");
-    var rightTop = document.getElementById("right-top");
-    var rightBottom = document.getElementById("right-bottom");
-    var leftBottom = document.getElementById("left-bottom");
-
-    // on mouse down on dots => resizeHandler()
-    function resizeHandler(event, left = false, top = false, xResize = false, yResize = false) {
-        initX = boxWrapper.offsetLeft;
-        initY = boxWrapper.offsetTop;
-        mousePressX = event.clientX;
-        mousePressY = event.clientY;
-
-        initW = box.offsetWidth;
-        initH = box.offsetHeight;
-
-
-        initRotate = getCurrentRotation(boxWrapper);
-
-        var initRadians = initRotate * Math.PI / 180;
-        var cosFraction = Math.cos(initRadians);
-        var sinFraction = Math.sin(initRadians);
-        function eventMoveHandler(event) {
-            var wDiff = (event.clientX - mousePressX);
-            var hDiff = (event.clientY - mousePressY);
-            var rotatedWDiff = cosFraction * wDiff + sinFraction * hDiff;
-            var rotatedHDiff = cosFraction * hDiff - sinFraction * wDiff;
-
-            var newW = initW, newH = initH, newX = initX, newY = initY;
-            if (xResize) {
-                if (left) {
-                    newW = initW - rotatedWDiff;
-                    if (newW < minWidth) {
-                    newW = minWidth;
-                    rotatedWDiff = initW - minWidth;
-                    }
-                } else {
-                    newW = initW + rotatedWDiff;
-                    if (newW < minWidth) {
-                    newW = minWidth;
-                    rotatedWDiff = minWidth - initW;
-                    }
-                }
-                newX += 0.5 * rotatedWDiff * cosFraction;
-                newY += 0.5 * rotatedWDiff * sinFraction;
-            }
-
-            if (yResize) {
-                if (top) {
-                    newH = initH - rotatedHDiff;
-                    if (newH < minHeight) {
-                    newH = minHeight;
-                    rotatedHDiff = initH - minHeight;
-                    }
-                } else {
-                    newH = initH + rotatedHDiff;
-                    if (newH < minHeight) {
-                    newH = minHeight;
-                    rotatedHDiff = minHeight - initH;
-                    }
-                }
-                newX -= 0.5 * rotatedHDiff * sinFraction;
-                newY += 0.5 * rotatedHDiff * cosFraction;
-            }
-            element.style.left = newX-newW/2 + 'px';
-            element.style.top = newY-newH/2 + 'px';
-            element.style.width = newW + 'px';
-            element.style.height = newH + 'px';
-            resize(newW, newH);
-            repositionElement(newX, newY);
-            updateDeleteIconPosition()
-
-            a=1;
-        }
-        // on mouse up => element is positioned
-        boxWrapper.addEventListener('mousemove', function eventEndHandler() {
-          console.log('mousemove...now nova')
-          var newFontSize = (box.style.height  );
-          element.style.fontSize = newFontSize
-        }, false)
-        
-        window.addEventListener('mousemove', eventMoveHandler, false);
-        window.addEventListener('mouseup', function eventEndHandler() {
-            window.removeEventListener('mousemove', eventMoveHandler, false);
-            window.removeEventListener('mouseup', eventEndHandler);
-        }, false);
+    });
     }
 
-    var rightMid = document.getElementById("right-mid");
-    var leftMid = document.getElementById("left-mid");
-    var topMid = document.getElementById("top-mid");
-    var bottomMid = document.getElementById("bottom-mid");
-    var leftTop = document.getElementById("left-top");
-    var rightTop = document.getElementById("right-top");
-    var rightBottom = document.getElementById("right-bottom");
-    var leftBottom = document.getElementById("left-bottom");
+    // Call the function to create the download button
+    createDownloadButton();
 
-    rightMid.addEventListener('mousedown', e => resizeHandler(e, false, false, true, false));
-    leftMid.addEventListener('mousedown', e => resizeHandler(e, true, false, true, false));
-    topMid.addEventListener('mousedown', e => resizeHandler(e, false, true, false, true));
-    bottomMid.addEventListener('mousedown', e => resizeHandler(e, false, false, false, true));
-    leftTop.addEventListener('mousedown', e => resizeHandler(e, true, true, true, true));
-    rightTop.addEventListener('mousedown', e => resizeHandler(e, false, true, true, true));
-    rightBottom.addEventListener('mousedown', e => resizeHandler(e, false, false, true, true));
-    leftBottom.addEventListener('mousedown', e => resizeHandler(e, true, false, true, true));
+    // enabling rotating, movable and resizable feature
+    function makeResizableAndDraggable(element) {
+        flag=0
+        //var createBoxButton = document.getElementById("createBoxButton");
+        //var previewContainer = document.getElementById("file-preview");
 
-    // handle rotation
-    var rotate = document.getElementById("rotate");
-    rotate.addEventListener('mousedown', function (event) {
-        initX = this.offsetLeft;
-        initY = this.offsetTop;
-        mousePressX = event.clientX;
-        mousePressY = event.clientY;
-        //var angle;
-        var arrow = document.getElementById("main-box");
-        var arrowRects = arrow.getBoundingClientRect();
-        var arrowX = arrowRects.left + arrowRects.width / 2;
-        var arrowY = arrowRects.top + arrowRects.height / 2;
+        //element.addEventListener("click", function () {
+            //Create box-wrapper and box elements
+            var zIndex = window.getComputedStyle(element).getPropertyValue('z-index');
 
-        function eventMoveHandler(event) {
-            var angle = Math.atan2(event.clientY - arrowY, event.clientX - arrowX) + Math.PI / 2;
-            rotateBox(angle * 180 / Math.PI);
-            element.style.transform = `rotate(${angle * 180 / Math.PI}deg)`; // here...
-            //console.log("angle: ",angle)
-        }
-
-        window.addEventListener('mousemove', eventMoveHandler, false);
-
-        window.addEventListener('mouseup', function eventEndHandler() {
-            window.removeEventListener('mousemove', eventMoveHandler, false);
-            window.removeEventListener('mouseup', eventEndHandler);
-        }, false);
-    }, false);
-
-    x=element.getBoundingClientRect()
-    y=previewContainer.getBoundingClientRect()
-
-    teraspin(element.style.transform);
-    if(element.width){
-      resize(element.width, element.height);
-    }else{
-      flag=1;
-      resizeSuper(element.style.width, element.style.height);
-    }
-    repositionElement(x.left-y.left+((x.right-y.left)-(x.left-y.left))/2, x.top-y.top+((x.bottom-y.top)-(x.top-y.top))/2);
-    delete_(element)
-
-    updateDeleteIconPosition()
-    // updating delete icon position
-    function updateDeleteIconPosition() { 
-      x=(1* window.innerWidth / 100)
-      y=(1* window.innerHeight / 100)
-      var deleteIconRelativeTop =-(3*y);
-      var deleteIconRelativeLeft = element.offsetWidth + (1.5*x);
-      var deleteIconTop = element.offsetTop + deleteIconRelativeTop;
-      var deleteIconLeft = element.offsetLeft + deleteIconRelativeLeft;
-    
-      var existingDeleteIcon = document.querySelector('.delete-icon');
-      if (existingDeleteIcon) {
-        existingDeleteIcon.style.top = deleteIconTop + 'px';
-        existingDeleteIcon.style.left = deleteIconLeft + 'px';
-      }
-    }
-    /// removing old delete icons and updating new ones => updating imagenamescontainer(drag box) => deleting images or textbox 
-    function delete_(element){
-      var existingDeleteIcons = document.querySelectorAll('.delete-icon');
-      existingDeleteIcons.forEach(function (deleteIcon) {
-        deleteIcon.remove();
-      });
-      var deleteIconRelativeTop =-'2vh'; // Adjust the top position as needed
-      var deleteIconRelativeLeft = element.offsetWidth + '1vw'; // Adjust the left position as needed
-    
-      // Calculate the position of the delete icon relative to the preview container
-      var deleteIconTop = element.offsetTop + deleteIconRelativeTop;
-      var deleteIconLeft = element.offsetLeft + deleteIconRelativeLeft;
-    
-      // Create a delete icon element
-      var deleteIcon = document.createElement('i');
-      deleteIcon.className = 'delete-icon fas fa-trash-alt';
-      deleteIcon.title='Delete';
-      deleteIcon.style.position = 'absolute';
-      deleteIcon.style.top = deleteIconTop + 'px';
-      deleteIcon.style.left = deleteIconLeft + 'px';
-      deleteIcon.style.lineHeight = '2vh';
-      deleteIcon.style.lineWidth='2vw';
-      //deleteIcon.style.fontSize = '2em';
-
-      deleteIcon.style.fontSize = '2vh';
-
-      deleteIcon.style.cursor = 'pointer';
-      //deleteIcon.style.color = 'red';
-      //deleteIcon.style.width = 'auto'; // To maintain the aspect ratio
-      
-      const imageNamesContainer = document.getElementById('image-names-container');
-
-      // Attach dragstart event listener to the container or its parent element
-      imageNamesContainer.addEventListener('dragstart', (e) => {
-        if (e.target.classList.contains('draggable')) {
-//          console.log("start of Drag...");
-          e.target.classList.add('dragging');
-        }
-      });
-    
-      // Attach dragend event listener to the container or its parent element
-      imageNamesContainer.addEventListener('dragend', (e) => {
-        if (e.target.classList.contains('draggable')) {
-//          console.log("end of Drag...");
-          e.target.classList.remove('dragging');
-        }
-      });
-      ///
-      deleteIcon.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var parentContainer = e.target.parentNode;
-        var img = parentContainer.querySelector('img');
-  
-        var existingBox = previewContainer.querySelector(".box-wrapper");
-
-        if (img==element) {
-        var dataType = img.getAttribute('data-type'); // Get the custom attribute
-        if (dataType === 'image') {
-        // Delete the image element
-          var img = parentContainer.querySelector('img');
-          var imageName = img.getAttribute('data-file-name'); // Get the image name from the custom attribute
-          var imageUrl = img.src;
-          var filename = imageUrl.split('/').pop(); // Extract the filename from the URL
-          var currentSrc = img.currentSrc; // Get the current fully qualified URL of the image
-          var currentSrcFileName = currentSrc.substring(currentSrc.lastIndexOf('/') + 1);
-        }}
-        element.remove();
-        deleteIcon.remove();
-        existingBox.remove();
-
-        var matchedValue = null;
-  
-        // Loop through the keys (filenames) in the imageDictionary
-        for (var key in imageDictionary) {
-          if (key === currentSrc) {
-            // If the key matches the currentSrcFileName, store its value in matchedValue
-            matchedValue = imageDictionary[key];
-            break; // Exit the loop since we found the match
-          }
-        }
-        // Find the index of the matchedValue in the imageNames array
-        var indexToRemove = imageNames.indexOf(matchedValue);
-  
-        // If the matchedValue exists in the array, remove it using splice
-        if (indexToRemove !== -1) {
-          imageNames.splice(indexToRemove, 1);
-        }
-  
-      
-        updateImageNamesContainer();
-        draggableContentsArray = printDraggableContents(imageNamesContainer);
-//        console.log("Updated Draggable Array contents:", draggableContentsArray);
-        
-      });
-      function updateImageNamesContainer() {
-    imageNamesContainer.innerHTML = imageNames.map(function (filename) {
-      return `<div class="draggable" draggable="true">${filename}</div>`;
-    }).join('<br>');
-  }
-  element.parentNode.appendChild(deleteIcon);
-    }
-}
-
-var L = [];
-// storing all elements inside 'L'
-function nova(element) {
-    L.push(element);
-}
-function removeBoxWrapperIfNotClicked(target,L,X,Y) {
-    var existingBox = previewContainer.querySelector(".box-wrapper");
-    var Box = previewContainer.querySelector(".box");
-    var Dot=previewContainer.querySelectorAll(".dot");
-    if (target!=Box) {
-        if (!target.classList.contains('dot')) {
-            console.log("terrible terrible..")
-            //rain(target)
-            if (Box) {              
+            var existingBox = previewContainer.querySelector(".box-wrapper");
+            if (existingBox) {
                 previewContainer.removeChild(existingBox);
             }
-            var existingDeleteIcons = document.querySelectorAll('.delete-icon');
-            existingDeleteIcons.forEach(function (deleteIcon) {
-              deleteIcon.remove();
+
+            var boxWrapper = document.createElement("div");
+            boxWrapper.classList.add("box-wrapper");
+            
+            var box = document.createElement("div");
+            box.classList.add("box");
+            box.id = "main-box";
+            var dots = [
+                "left-top", "left-bottom", "right-top", "right-bottom",
+                "top-mid", "bottom-mid", "left-mid", "right-mid", "rotate"
+            ];
+
+            dots.forEach((dotClass, index) => {
+                var dot = document.createElement("div");
+                dot.classList.add("dot", dotClass);
+                dot.id = dotClass; // Add this line to assign IDs to dot elements
+                box.appendChild(dot);
             });
+
+
+            // Add the rotate link
+            var rotateLink = document.createElement("div");
+            rotateLink.classList.add("rotate-link");
+            box.appendChild(rotateLink);
+
+            boxWrapper.appendChild(box);
+            previewContainer.appendChild(boxWrapper);
+        // var box = document.getElementById("box");
+        // var boxWrapper = document.getElementById("box-wrapper");
+        const minWidth = 1;
+        const minHeight = 1;
+
+
+        var initX, initY, mousePressX, mousePressY, initW, initH, initRotate;
+
+
+        function teraspin(z){ // passing rotation angle
+            boxWrapper.style.transform =z;
         }
-    }
-}
-var selectedTextbox = null; 
+        // assigning left and top to box wrapper
+        function repositionElement(x, y) {
+            boxWrapper.style.left = x + 'px';
+            boxWrapper.style.top = y + 'px';
+        }
+        // assigning left and top to box wrapper
+        function repositionElementSuper(x, y) {
+        boxWrapper.style.left = x+'px' ;
+        boxWrapper.style.top = y+'px';
+        }
+        // assigning height and width to box
+        function resize(w, h) {
+            box.style.width = w + 'px';
+            box.style.height = h + 'px';
+        }
+        // assigning height and width to box
+        function resizeSuper(w, h) {
+        box.style.width = w;
+        box.style.height = h;
+        }
+        // getting the anglr of rotation
+        function getCurrentRotation(el) {
+            var st = window.getComputedStyle(el, null);
+            var tm = st.getPropertyValue("-webkit-transform") ||
+                st.getPropertyValue("-moz-transform") ||
+                st.getPropertyValue("-ms-transform") ||
+                st.getPropertyValue("-o-transform") ||
+                st.getPropertyValue("transform")
+            "none";
+            if (tm != "none") {
+                var values = tm.split('(')[1].split(')')[0].split(',');
+                var angle = Math.round(Math.atan2(values[1], values[0]) * (180 / Math.PI));
+                return (angle < 0 ? angle + 360 : angle);
+            }
+            return 0;
+        }
+        var a=0;
 
-var startTime,endTime;
-document.addEventListener('mousedown', function (event) {
-  startTime = new Date().getTime();
-});
-// mousedown(get start time) => mouseup(get end time)=> clicking makes 'click=0' clicking on element makes 'click=1' . if click=0 => remove editing feature,if click=1 => enable editing.
-document.addEventListener('mouseup', function (event) {
-  endTime = new Date().getTime();
-  document.addEventListener('click', function (event) {
-    var click=0;
-    L.forEach(function (i) {
-      if (i.contains(event.target)) {
-        makeResizableAndDraggable(i)
-        click=1;
-        selectedTextbox=i;
-        //rain(i,event.target)
-      }
-    });
-    if(click==0){
-      var cat=0
-      removeBoxWrapperIfNotClicked(event.target,L,event.clientX,event.clientY);
-      //existingBox.forEach(function (j) {
-      game(cat,event.targetX,event.targetY)
+        // applying rotation angle
+        function rotateBox(deg) {
+            boxWrapper.style.transform = `rotate(${deg}deg)`;
+        }
+        boxWrapper.addEventListener('mousedown', function (event) {
+            if (event.target.className.indexOf("dot") > -1) {
+                return;
+            }
+            initX = this.offsetLeft;
+            initY = this.offsetTop;
+            mousePressX = event.clientX;
+            mousePressY = event.clientY;
 
-    //});
-    }
-  });
-});
+            // updating delete icon position
+            function eventMoveHandler(event) {
+                if(flag==0){
+                    repositionElement(initX + (event.clientX - mousePressX),
+                    initY + (event.clientY - mousePressY));
 
-// color function
-var colorPicker = document.getElementById('text-color-picker');
-console.log('colorPicker.value2: ',colorPicker.value)
-//colorPicker.value='#17a2b8'
-colorPicker.value='#6401FA'
-console.log('colorPicker.value22: ',colorPicker.value)
+                    element.style.left = initX + (event.clientX - mousePressX)-element.width/2 + 'px';
+                    element.style.top = initY + (event.clientY - mousePressY)-element.height/2 + 'px';
+                    updateDeleteIconPosition()
 
-colorPicker.addEventListener('input', function() {
-  if (selectedTextbox) {
-    selectedTextbox.style.color = colorPicker.value;
-  }
-});
-// if (endtime-starttime) < 200milisec it is a click. else not a click and only then, the element will be edited.
-function game(cat,X,Y){
-  var existingBox = previewContainer.querySelector(".box-wrapper");
+                }else if(flag==1){
+                    repositionElementSuper(initX + (event.clientX - mousePressX),
+                    initY + (event.clientY - mousePressY));
 
-  if(existingBox){
-    if(endTime-startTime<200){
-      previewContainer.removeChild(existingBox);
-      var existingDeleteIcons = document.querySelectorAll('.delete-icon');
-      existingDeleteIcons.forEach(function (deleteIcon) {
-        deleteIcon.remove();
-      });
-    }
-   }
-}
+                    // Parse the element width and height to get the numeric value and units
+                    var elementWidthValue = parseFloat(element.style.width);
+                    var elementHeightValue = parseFloat(element.style.height);
+                    var elementWidthUnit = element.style.width.replace(elementWidthValue, '').trim();
+                    var elementHeightUnit = element.style.height.replace(elementHeightValue, '').trim();
+                    
+                    // Calculate new position based on element width and height
+                    var newLeft, newTop;
+                    
+                    if (elementWidthUnit === 'vw') {
+                        var elementWidthPixels = elementWidthValue * window.innerWidth / 100;
+                        newLeft = initX + (event.clientX - mousePressX) - elementWidthPixels / 2;
+                    } else {
+                        newLeft = initX + (event.clientX - mousePressX) - elementWidthValue / 2;
+                    }
+                    
+                    if (elementHeightUnit === 'vh') {
+                        var elementHeightPixels = elementHeightValue * window.innerHeight / 100;
+                        newTop = initY + (event.clientY - mousePressY) - elementHeightPixels / 2;
+                    } else {
+                        newTop = initY + (event.clientY - mousePressY) - elementHeightValue / 2;
+                    }
 
-
-// var numberInput1 = document.getElementById("numberInput3");
-// var numberInput2 = document.getElementById("numberInput4");
-//numberInput1.setAttribute("required", "");
-
-var container_h=0
-var container_w=0
-
-var fixed_Height=previewContainer.offsetHeight;
-var fixed_Width=previewContainer.offsetWidth;
-
-var cur_h = previewContainer.offsetHeight;
-var cur_w = previewContainer.offsetWidth;
-
-var final_h=0;
-var final_w=0;
-
-var mult_factor=1
-var ratio=-1
-
-var fixed_Height_hiddden=previewContainer_hidden.offsetHeight;
-
-var heightInput = document.getElementById("numberInput3");
-var widthInput = document.getElementById("numberInput4");
-var Aspect_Ratio=0
-var heightInput_pre,widthInput_pre
-
-heightInput.addEventListener("input", function() {
-  console.log("fixed_Height_hiddden: ",fixed_Height_hiddden)
-  if (heightInput.value !== "") {
-    if(Aspect_Ratio==0){
-      a=heightInput.value
-      b=widthInput.value
-      container_h=a
-      console.log("a,b=",a,b)    
-
-    }else{
-      a=heightInput.value
-      widthInput.value=heightInput.value/11*8.5
-      b=heightInput.value/11*8.5
-      container_h=a
-      console.log("a,b=",a,b)    
-
-    }
-    boat(a,b);
-  }else{
-    ratio=-1
-    var viewportWidth = window.innerWidth;
-    previewContainer.style.left=0+'px'
-
-    previewContainer.style.height=fixed_Height+'px';
-    cur_h = previewContainer.offsetHeight;
-    previewContainer.style.width=fixed_Width+'px'; 
-    cur_w = previewContainer.offsetWidth;
-  }
-});
-widthInput.addEventListener("input", function() {
-    if (widthInput.value !== "") {
-      if(Aspect_Ratio==0){
-        a=heightInput.value
-        b=widthInput.value
-        container_w=b
-        console.log("a,b=",a,b)    
-
-      }else{
-        a=widthInput.value/8.5*11
-        heightInput.value=widthInput.value/8.5*11
-        b=widthInput.value
-        container_w=b        
-        console.log("a,b=",a,b)    
-      }
-        boat(a,b);
-
-    }else{
-      ratio=-1
-      var viewportWidth = window.innerWidth;
-      previewContainer.style.left=0+'px'
-      previewContainer.style.height=fixed_Height+'px';
-      cur_h = previewContainer.offsetHeight;
-      previewContainer.style.width=fixed_Width+'px';
-      cur_w = previewContainer.offsetWidth;
-    }
-  });
-
-  function boat(a,b) {
-    console.log('boat')
-    ratio = a / b;
-    boxsize(cur_h,cur_w);
-    function boxsize(cur_h,cur_w){
-        if(ratio!=0 && ratio!=Infinity){
-            if(fixed_Height<fixed_Width){
-                cur_w = cur_h / ratio;
-                while(cur_w > fixed_Width){
-                    cur_h = cur_h * 0.9999;
-                    cur_w = cur_h / ratio;
-                }
-            }else{
-                cur_h = cur_w * ratio
-                while(cur_h > fixed_Height){
-                    cur_w = cur_w * 0.9999;
-                    cur_h = cur_w / ratio;
+                    // Set the new position for the element
+                    element.style.left = newLeft + 'px';
+                    element.style.top = newTop + 'px';
+                    updateDeleteIconPosition()
                 }
             }
+
+            box.addEventListener('mousemove', eventMoveHandler, false);
+            window.addEventListener('mouseup', function eventEndHandler() {
+                box.removeEventListener('mousemove', eventMoveHandler, false);
+                window.removeEventListener('mouseup', eventEndHandler);
+            }, false);
+
+        }, false);
+
+        var rightMid = document.getElementById("right-mid");
+        var leftMid = document.getElementById("left-mid");
+        var topMid = document.getElementById("top-mid");
+        var bottomMid = document.getElementById("bottom-mid");
+
+        var leftTop = document.getElementById("left-top");
+        var rightTop = document.getElementById("right-top");
+        var rightBottom = document.getElementById("right-bottom");
+        var leftBottom = document.getElementById("left-bottom");
+
+        // on mouse down on dots => resizeHandler()
+        function resizeHandler(event, left = false, top = false, xResize = false, yResize = false) {
+            initX = boxWrapper.offsetLeft;
+            initY = boxWrapper.offsetTop;
+            mousePressX = event.clientX;
+            mousePressY = event.clientY;
+
+            initW = box.offsetWidth;
+            initH = box.offsetHeight;
+
+
+            initRotate = getCurrentRotation(boxWrapper);
+
+            var initRadians = initRotate * Math.PI / 180;
+            var cosFraction = Math.cos(initRadians);
+            var sinFraction = Math.sin(initRadians);
+            function eventMoveHandler(event) {
+                var wDiff = (event.clientX - mousePressX);
+                var hDiff = (event.clientY - mousePressY);
+                var rotatedWDiff = cosFraction * wDiff + sinFraction * hDiff;
+                var rotatedHDiff = cosFraction * hDiff - sinFraction * wDiff;
+
+                var newW = initW, newH = initH, newX = initX, newY = initY;
+                if (xResize) {
+                    if (left) {
+                        newW = initW - rotatedWDiff;
+                        if (newW < minWidth) {
+                        newW = minWidth;
+                        rotatedWDiff = initW - minWidth;
+                        }
+                    } else {
+                        newW = initW + rotatedWDiff;
+                        if (newW < minWidth) {
+                        newW = minWidth;
+                        rotatedWDiff = minWidth - initW;
+                        }
+                    }
+                    newX += 0.5 * rotatedWDiff * cosFraction;
+                    newY += 0.5 * rotatedWDiff * sinFraction;
+                }
+
+                if (yResize) {
+                    if (top) {
+                        newH = initH - rotatedHDiff;
+                        if (newH < minHeight) {
+                        newH = minHeight;
+                        rotatedHDiff = initH - minHeight;
+                        }
+                    } else {
+                        newH = initH + rotatedHDiff;
+                        if (newH < minHeight) {
+                        newH = minHeight;
+                        rotatedHDiff = minHeight - initH;
+                        }
+                    }
+                    newX -= 0.5 * rotatedHDiff * sinFraction;
+                    newY += 0.5 * rotatedHDiff * cosFraction;
+                }
+                element.style.left = newX-newW/2 + 'px';
+                element.style.top = newY-newH/2 + 'px';
+                element.style.width = newW + 'px';
+                element.style.height = newH + 'px';
+                resize(newW, newH);
+                repositionElement(newX, newY);
+                updateDeleteIconPosition()
+
+                a=1;
+            }
+            // on mouse up => element is positioned
+            boxWrapper.addEventListener('mousemove', function eventEndHandler() {
+            console.log('mousemove...now nova')
+            var newFontSize = (box.style.height  );
+            element.style.fontSize = newFontSize
+            }, false)
+            
+            window.addEventListener('mousemove', eventMoveHandler, false);
+            window.addEventListener('mouseup', function eventEndHandler() {
+                window.removeEventListener('mousemove', eventMoveHandler, false);
+                window.removeEventListener('mouseup', eventEndHandler);
+            }, false);
         }
-        var viewportWidth = window.innerWidth;
 
-        previewContainer.style.height = `${cur_h}px`;///
-        var cur_h_in_vh = (cur_h / viewportWidth) * 100;
-        previewContainer.style.height = `${cur_h_in_vh}vw`;
-        console.log("previewContainer.style.left:",previewContainer.style.left)
-        console.log("cur_w:",cur_w)
-        console.log("previewContainer_hidden.offsetWidth:",previewContainer_hidden.offsetWidth)
+        var rightMid = document.getElementById("right-mid");
+        var leftMid = document.getElementById("left-mid");
+        var topMid = document.getElementById("top-mid");
+        var bottomMid = document.getElementById("bottom-mid");
+        var leftTop = document.getElementById("left-top");
+        var rightTop = document.getElementById("right-top");
+        var rightBottom = document.getElementById("right-bottom");
+        var leftBottom = document.getElementById("left-bottom");
 
-        previewContainer.style.left=(previewContainer_hidden.offsetWidth-cur_w)/2+'px'
-        console.log("previewContainer.style.left:",previewContainer.style.left)
+        rightMid.addEventListener('mousedown', e => resizeHandler(e, false, false, true, false));
+        leftMid.addEventListener('mousedown', e => resizeHandler(e, true, false, true, false));
+        topMid.addEventListener('mousedown', e => resizeHandler(e, false, true, false, true));
+        bottomMid.addEventListener('mousedown', e => resizeHandler(e, false, false, false, true));
+        leftTop.addEventListener('mousedown', e => resizeHandler(e, true, true, true, true));
+        rightTop.addEventListener('mousedown', e => resizeHandler(e, false, true, true, true));
+        rightBottom.addEventListener('mousedown', e => resizeHandler(e, false, false, true, true));
+        leftBottom.addEventListener('mousedown', e => resizeHandler(e, true, false, true, true));
 
-        previewContainer.style.width = `${cur_w}px`;
-        final_h=cur_h;
-        final_w=cur_w;
+        // handle rotation
+        var rotate = document.getElementById("rotate");
+        rotate.addEventListener('mousedown', function (event) {
+            initX = this.offsetLeft;
+            initY = this.offsetTop;
+            mousePressX = event.clientX;
+            mousePressY = event.clientY;
+            //var angle;
+            var arrow = document.getElementById("main-box");
+            var arrowRects = arrow.getBoundingClientRect();
+            var arrowX = arrowRects.left + arrowRects.width / 2;
+            var arrowY = arrowRects.top + arrowRects.height / 2;
+
+            function eventMoveHandler(event) {
+                var angle = Math.atan2(event.clientY - arrowY, event.clientX - arrowX) + Math.PI / 2;
+                rotateBox(angle * 180 / Math.PI);
+                element.style.transform = `rotate(${angle * 180 / Math.PI}deg)`; // here...
+                //console.log("angle: ",angle)
+            }
+
+            window.addEventListener('mousemove', eventMoveHandler, false);
+
+            window.addEventListener('mouseup', function eventEndHandler() {
+                window.removeEventListener('mousemove', eventMoveHandler, false);
+                window.removeEventListener('mouseup', eventEndHandler);
+            }, false);
+        }, false);
+
+        x=element.getBoundingClientRect()
+        y=previewContainer.getBoundingClientRect()
+
+        teraspin(element.style.transform);
+        if(element.width){
+        resize(element.width, element.height);
+        }else{
+        flag=1;
+        resizeSuper(element.style.width, element.style.height);
+        }
+        repositionElement(x.left-y.left+((x.right-y.left)-(x.left-y.left))/2, x.top-y.top+((x.bottom-y.top)-(x.top-y.top))/2);
+        delete_(element)
+
+        updateDeleteIconPosition()
+        // updating delete icon position
+        function updateDeleteIconPosition() { 
+        x=(1* window.innerWidth / 100)
+        y=(1* window.innerHeight / 100)
+        var deleteIconRelativeTop =-(3*y);
+        var deleteIconRelativeLeft = element.offsetWidth + (1.5*x);
+        var deleteIconTop = element.offsetTop + deleteIconRelativeTop;
+        var deleteIconLeft = element.offsetLeft + deleteIconRelativeLeft;
+        
+        var existingDeleteIcon = document.querySelector('.delete-icon');
+        if (existingDeleteIcon) {
+            existingDeleteIcon.style.top = deleteIconTop + 'px';
+            existingDeleteIcon.style.left = deleteIconLeft + 'px';
+        }
+        }
+        /// removing old delete icons and updating new ones => updating imagenamescontainer(drag box) => deleting images or textbox 
+        function delete_(element){
+        var existingDeleteIcons = document.querySelectorAll('.delete-icon');
+        existingDeleteIcons.forEach(function (deleteIcon) {
+            deleteIcon.remove();
+        });
+        var deleteIconRelativeTop =-'2vh'; // Adjust the top position as needed
+        var deleteIconRelativeLeft = element.offsetWidth + '1vw'; // Adjust the left position as needed
+        
+        // Calculate the position of the delete icon relative to the preview container
+        var deleteIconTop = element.offsetTop + deleteIconRelativeTop;
+        var deleteIconLeft = element.offsetLeft + deleteIconRelativeLeft;
+        
+        // Create a delete icon element
+        var deleteIcon = document.createElement('i');
+        deleteIcon.className = 'delete-icon fas fa-trash-alt';
+        deleteIcon.title='Delete';
+        deleteIcon.style.position = 'absolute';
+        deleteIcon.style.top = deleteIconTop + 'px';
+        deleteIcon.style.left = deleteIconLeft + 'px';
+        deleteIcon.style.lineHeight = '2vh';
+        deleteIcon.style.lineWidth='2vw';
+        //deleteIcon.style.fontSize = '2em';
+
+        deleteIcon.style.fontSize = '2vh';
+
+        deleteIcon.style.cursor = 'pointer';
+        //deleteIcon.style.color = 'red';
+        //deleteIcon.style.width = 'auto'; // To maintain the aspect ratio
+        
+        const imageNamesContainer = document.getElementById('image-names-container');
+
+        // Attach dragstart event listener to the container or its parent element
+        imageNamesContainer.addEventListener('dragstart', (e) => {
+            if (e.target.classList.contains('draggable')) {
+    //          console.log("start of Drag...");
+            e.target.classList.add('dragging');
+            }
+        });
+        
+        // Attach dragend event listener to the container or its parent element
+        imageNamesContainer.addEventListener('dragend', (e) => {
+            if (e.target.classList.contains('draggable')) {
+    //          console.log("end of Drag...");
+            e.target.classList.remove('dragging');
+            }
+        });
+        ///
+        deleteIcon.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var parentContainer = e.target.parentNode;
+            var img = parentContainer.querySelector('img');
+    
+            var existingBox = previewContainer.querySelector(".box-wrapper");
+
+            if (img==element) {
+            var dataType = img.getAttribute('data-type'); // Get the custom attribute
+            if (dataType === 'image') {
+            // Delete the image element
+            var img = parentContainer.querySelector('img');
+            var imageName = img.getAttribute('data-file-name'); // Get the image name from the custom attribute
+            var imageUrl = img.src;
+            var filename = imageUrl.split('/').pop(); // Extract the filename from the URL
+            var currentSrc = img.currentSrc; // Get the current fully qualified URL of the image
+            var currentSrcFileName = currentSrc.substring(currentSrc.lastIndexOf('/') + 1);
+            }}
+            element.remove();
+            deleteIcon.remove();
+            existingBox.remove();
+
+            var matchedValue = null;
+    
+            // Loop through the keys (filenames) in the imageDictionary
+            for (var key in imageDictionary) {
+            if (key === currentSrc) {
+                // If the key matches the currentSrcFileName, store its value in matchedValue
+                matchedValue = imageDictionary[key];
+                break; // Exit the loop since we found the match
+            }
+            }
+            // Find the index of the matchedValue in the imageNames array
+            var indexToRemove = imageNames.indexOf(matchedValue);
+    
+            // If the matchedValue exists in the array, remove it using splice
+            if (indexToRemove !== -1) {
+            imageNames.splice(indexToRemove, 1);
+            }
+    
+        
+            updateImageNamesContainer();
+            draggableContentsArray = printDraggableContents(imageNamesContainer);
+    //        console.log("Updated Draggable Array contents:", draggableContentsArray);
+            
+        });
+        function updateImageNamesContainer() {
+        imageNamesContainer.innerHTML = imageNames.map(function (filename) {
+        return `<div class="draggable" draggable="true">${filename}</div>`;
+        }).join('<br>');
     }
-}
-
-function preventE(event) {
-    if (event.key === 'e') {
-        event.preventDefault();
+    element.parentNode.appendChild(deleteIcon);
+        }
     }
-}
 
-const checkbox = document.getElementById("exampleCheckbox");
-checkbox.addEventListener("change", function() {
-Aspect_Ratio=1
-if (checkbox.checked) {
-  console.log('Checkbox is checked');
-  if(heightInput.value==="" && widthInput.value===""){
-    heightInput.value=3300
-    widthInput.value=2550
-  }else if(heightInput.value==="" && widthInput.value!==""){
-    heightInput.value=widthInput.value/8.5*11
-  }else if(heightInput.value!=="" && widthInput.value===""){
-    widthInput.value=heightInput.value/11*8.5
-  }else{
-    a=heightInput.value
-    b=widthInput.value
-    if(a>b){
-      heightInput.value=widthInput.value/8.5*11
+    var L = [];
+    // storing all elements inside 'L'
+    function nova(element) {
+        L.push(element);
+    }
+    function removeBoxWrapperIfNotClicked(target,L,X,Y) {
+        var existingBox = previewContainer.querySelector(".box-wrapper");
+        var Box = previewContainer.querySelector(".box");
+        var Dot=previewContainer.querySelectorAll(".dot");
+        if (target!=Box) {
+            if (!target.classList.contains('dot')) {
+                console.log("terrible terrible..")
+                //rain(target)
+                if (Box) {              
+                    previewContainer.removeChild(existingBox);
+                }
+                var existingDeleteIcons = document.querySelectorAll('.delete-icon');
+                existingDeleteIcons.forEach(function (deleteIcon) {
+                deleteIcon.remove();
+                });
+            }
+        }
+    }
+    var selectedTextbox = null; 
+
+    var startTime,endTime;
+    document.addEventListener('mousedown', function (event) {
+    startTime = new Date().getTime();
+    });
+    // mousedown(get start time) => mouseup(get end time)=> clicking makes 'click=0' clicking on element makes 'click=1' . if click=0 => remove editing feature,if click=1 => enable editing.
+    document.addEventListener('mouseup', function (event) {
+    endTime = new Date().getTime();
+    document.addEventListener('click', function (event) {
+        var click=0;
+        L.forEach(function (i) {
+        if (i.contains(event.target)) {
+            makeResizableAndDraggable(i)
+            click=1;
+            selectedTextbox=i;
+            //rain(i,event.target)
+        }
+        });
+        if(click==0){
+        var cat=0
+        removeBoxWrapperIfNotClicked(event.target,L,event.clientX,event.clientY);
+        //existingBox.forEach(function (j) {
+        game(cat,event.targetX,event.targetY)
+
+        //});
+        }
+    });
+    });
+
+    // color function
+    var colorPicker = document.getElementById('text-color-picker');
+    console.log('colorPicker.value2: ',colorPicker.value)
+    //colorPicker.value='#6401FA'
+    colorPicker.value='#057068'
+    console.log('colorPicker.value22: ',colorPicker.value)
+
+    colorPicker.addEventListener('input', function() {
+    if (selectedTextbox) {
+        selectedTextbox.style.color = colorPicker.value;
+    }
+    });
+    // if (endtime-starttime) < 200milisec it is a click. else not a click and only then, the element will be edited.
+    function game(cat,X,Y){
+    var existingBox = previewContainer.querySelector(".box-wrapper");
+
+    if(existingBox){
+        if(endTime-startTime<200){
+        previewContainer.removeChild(existingBox);
+        var existingDeleteIcons = document.querySelectorAll('.delete-icon');
+        existingDeleteIcons.forEach(function (deleteIcon) {
+            deleteIcon.remove();
+        });
+        }
+    }
+    }
+
+    var container_h=0
+    var container_w=0
+
+    var fixed_Height=previewContainer.offsetHeight;
+    var fixed_Width=previewContainer.offsetWidth;
+
+    var cur_h = previewContainer.offsetHeight;
+    var cur_w = previewContainer.offsetWidth;
+
+    var final_h=0;
+    var final_w=0;
+
+    var mult_factor=1
+    var ratio=-1
+
+    var fixed_Height_hiddden=previewContainer_hidden.offsetHeight;
+
+    var heightInput = document.getElementById("numberInput3");
+    var widthInput = document.getElementById("numberInput4");
+    var Aspect_Ratio=0
+    var heightInput_pre,widthInput_pre
+
+    heightInput.addEventListener("input", function() {
+    console.log("fixed_Height_hiddden: ",fixed_Height_hiddden)
+    if (heightInput.value !== "") {
+        if(Aspect_Ratio==0){
+        a=heightInput.value
+        b=widthInput.value
+        container_h=a
+        console.log("a,b=",a,b)    
+
+        }else{
+        a=heightInput.value
+        widthInput.value=heightInput.value/11*8.5
+        b=heightInput.value/11*8.5
+        container_h=a
+        console.log("a,b=",a,b)    
+
+        }
+        boat(a,b);
     }else{
-      widthInput.value=heightInput.value/11*8.5
+        ratio=-1
+        var viewportWidth = window.innerWidth;
+        previewContainer.style.left=0+'px'
+
+        previewContainer.style.height=fixed_Height+'px';
+        cur_h = previewContainer.offsetHeight;
+        previewContainer.style.width=fixed_Width+'px'; 
+        cur_w = previewContainer.offsetWidth;
     }
-  }
-  boat(heightInput.value,widthInput.value)
-} else {
-  Aspect_Ratio=0
-  console.log('heightInput: ',heightInput.value);
-  console.log('widthInput: ',widthInput.value);
-}
-});
+    });
+    widthInput.addEventListener("input", function() {
+        if (widthInput.value !== "") {
+        if(Aspect_Ratio==0){
+            a=heightInput.value
+            b=widthInput.value
+            container_w=b
+            console.log("a,b=",a,b)    
 
-// function preventE(event) {
-//   if (event.key === 'e') {
-//       event.preventDefault();
-//   }
-// }
+        }else{
+            a=widthInput.value/8.5*11
+            heightInput.value=widthInput.value/8.5*11
+            b=widthInput.value
+            container_w=b        
+            console.log("a,b=",a,b)    
+        }
+            boat(a,b);
 
-// var heightInput = document.getElementById("numberInput3");
-// var widthInput = document.getElementById("numberInput4");
-// var Aspect_Ratio=0
-// var heightInput_pre,widthInput_pre
+        }else{
+        ratio=-1
+        var viewportWidth = window.innerWidth;
+        previewContainer.style.left=0+'px'
+        previewContainer.style.height=fixed_Height+'px';
+        cur_h = previewContainer.offsetHeight;
+        previewContainer.style.width=fixed_Width+'px';
+        cur_w = previewContainer.offsetWidth;
+        }
+    });
 
-// const checkbox = document.getElementById("exampleCheckbox");
-// checkbox.addEventListener("change", function() {
-// Aspect_Ratio=1
-// if (checkbox.checked) {
-//   console.log('Checkbox is checked');
-//   if(heightInput.value==="" && widthInput.value===""){
-//     heightInput.value=3300
-//     widthInput.value=2550
-//   }else if(heightInput.value==="" && widthInput.value!==""){
-//     heightInput.value=widthInput.value/8.5*11
-//   }else if(heightInput.value!=="" && widthInput.value===""){
-//     widthInput.value=heightInput.value/11*8.5
-//   }else{
-//     a=heightInput.value
-//     b=widthInput.value
-//     if(a>b){
-//       heightInput.value=widthInput.value/8.5*11
-//     }else{
-//       widthInput.value=heightInput.value/11*8.5
-//     }
-//   }
-//   boat(heightInput.value,widthInput.value)
-// } else {
-//   Aspect_Ratio=0
-//   console.log('heightInput: ',heightInput.value);
-//   console.log('widthInput: ',widthInput.value);
-// }
-// });
+    function boat(a,b) {
+        console.log('boat')
+        ratio = a / b;
+        boxsize(cur_h,cur_w);
+        function boxsize(cur_h,cur_w){
+            if(ratio!=0 && ratio!=Infinity){
+                if(fixed_Height<fixed_Width){
+                    cur_w = cur_h / ratio;
+                    while(cur_w > fixed_Width){
+                        cur_h = cur_h * 0.9999;
+                        cur_w = cur_h / ratio;
+                    }
+                }else{
+                    cur_h = cur_w * ratio
+                    while(cur_h > fixed_Height){
+                        cur_w = cur_w * 0.9999;
+                        cur_h = cur_w / ratio;
+                    }
+                }
+            }
+            var viewportWidth = window.innerWidth;
 
-// heightInput.addEventListener("input", function() {
-//   if(Aspect_Ratio==0){
-//     console.log('aspect ratio unchecked...wait')
-//   }else{
-//     console.log('aspect ratio unchecked...wait')
-//   }
-// })
-// widthInput.addEventListener("input", function() {
-//   if(Aspect_Ratio==0){
-//     console.log('aspect ratio unchecked...wait')
-//   }else{
-//     console.log('aspect ratio unchecked...wait')
-//   }
-// })
+            previewContainer.style.height = `${cur_h}px`;///
+            var cur_h_in_vh = (cur_h / viewportWidth) * 100;
+            previewContainer.style.height = `${cur_h_in_vh}vw`;
+            console.log("previewContainer.style.left:",previewContainer.style.left)
+            console.log("cur_w:",cur_w)
+            console.log("previewContainer_hidden.offsetWidth:",previewContainer_hidden.offsetWidth)
+
+            previewContainer.style.left=(previewContainer_hidden.offsetWidth-cur_w)/2+'px'
+            console.log("previewContainer.style.left:",previewContainer.style.left)
+
+            previewContainer.style.width = `${cur_w}px`;
+            final_h=cur_h;
+            final_w=cur_w;
+        }
+    }
+
+    function preventE(event) {
+        if (event.key === 'e') {
+            event.preventDefault();
+        }
+    }
+
+    const checkbox = document.getElementById("exampleCheckbox");
+    checkbox.addEventListener("change", function() {
+    Aspect_Ratio=1
+    if (checkbox.checked) {
+    console.log('Checkbox is checked');
+    if(heightInput.value==="" && widthInput.value===""){
+        heightInput.value=3300
+        widthInput.value=2550
+    }else if(heightInput.value==="" && widthInput.value!==""){
+        heightInput.value=widthInput.value/8.5*11
+    }else if(heightInput.value!=="" && widthInput.value===""){
+        widthInput.value=heightInput.value/11*8.5
+    }else{
+        a=heightInput.value
+        b=widthInput.value
+        if(a>b){
+        heightInput.value=widthInput.value/8.5*11
+        }else{
+        widthInput.value=heightInput.value/11*8.5
+        }
+    }
+    boat(heightInput.value,widthInput.value)
+    } else {
+    Aspect_Ratio=0
+    console.log('heightInput: ',heightInput.value);
+    console.log('widthInput: ',widthInput.value);
+    }
+    });
+  </script>
+
   </script>
 </body>
 </html>
